@@ -1,0 +1,38 @@
+﻿@model IEnumerable<AppointmentManagementSystem.ViewModels.DepartmentVm>
+<div class="rounded borderless shadow-sm bg-white mt-2">
+    <table class="table table-borderless mb-2 col-md-12">
+
+        @foreach (var item in Model)
+        {
+          
+                <th>
+                    @if (item.IsChecked == true)
+                    {
+                        <input class="allCheckbox" type="checkbox" value="@item.DepartmentId" checked="checked" />
+                    }
+                    else
+                    {
+                        <input class="allCheckbox" type="checkbox" value="@item.DepartmentId" />
+                    }
+                    <span>@item.DepartmentName</span>
+                </th>
+           
+        }
+
+    </table>
+</div>
+
+
+<script>
+    $(document).ready(function () {
+        $("#Settings").css('display', 'block');
+    });
+
+    function CheckAll() {
+        if ($("#allCheck").is(":checked")) {
+            $(".allCheckbox").attr("checked", true);;
+        } else {
+            $(".allCheckbox").attr("checked", false);
+        }
+    }
+</script>

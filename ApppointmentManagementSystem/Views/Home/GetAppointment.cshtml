@@ -1,0 +1,256 @@
+﻿@model AppointmentManagementSystem.ViewModels.AppointmentEntryVm
+@{
+    ViewData["Title"] = "Visitor Register";
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <style>
+        .bg {
+            background-image: url('../../Images/bg.jpg');
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-color: rgba(255, 255, 255, 0.5);
+        }
+
+        .shadow {
+            box-shadow: 0 .5rem 1rem rgba(0,0,0,0.7) !important
+        }
+    </style>
+</head>
+
+<body class="bg">
+    <div class="container-fluid conya">
+        <div class="row">
+            <div class="col-md-5 mx-auto card p-2 shadow" style="margin-top:5%">
+                <section>
+                    @if (Model.Id == 0)
+                    {
+                        <h4 class="text-center my-3">Online Appointment</h4>
+                    }
+                    else
+                    {
+                        <h4 class="text-center my-3">Reschedule Appointment</h4>
+                    }
+
+                    <div class="text-center">
+                        @if (ViewBag.SuccessMessage != null)
+                        {
+                            <div id="SuccessMessage" style="display: none;">@ViewBag.SuccessMessage</div>
+                            <div id="toast-data" data-toast-type="success" style="display: none;"></div>
+                        }
+                        @if (ViewBag.ErrorMessage != null)
+                        {
+                            <div id="ErrorMessage" style="display: none;">@ViewBag.ErrorMessage</div>
+                            <div id="toast-data" data-toast-type="error" style="display: none;"></div>
+                        }
+                    </div>
+                    <form method="post" asp-action="GetAppointmentEntry" enctype="multipart/form-data">
+                        <div class="row m-2">
+                            <input type="hidden" asp-for="Id" id="IdInput" class="form-control" />
+                            <input type="hidden" value="@ViewBag.DoctorId" id="DoctorId" name="doctorId" />
+                            <input type="hidden" value="@ViewBag.BranchId" id="BranchId" name="branchId" />
+                            <input type="hidden" value="@ViewBag.DepartmentId" id="DepartmentId" name="departmentId" />
+                            <input type="hidden" value="" id="ServiceId" name="DoctorServiceId" />
+                            <input type="hidden" value="" id="DateStringId" name="dateString" />
+                            <div class="col-md-6 mt-2">
+                                <div class="form-group">
+                                    <label class="control-label">Patient Name</label>
+                                    &nbsp;<span class="text-danger">*</span>
+                                    <input asp-for="PatientName" id="nameInput" class="form-control mt-1" required="required" />
+                                </div>
+                            </div>
+                            <div class="col-md-6 mt-2">
+                                <div class="form-group">
+                                    <label class="control-label">Patient Gender</label>
+                                    &nbsp;<span class="text-danger">*</span>
+                                    <select asp-for="PatientGender" class="form-control mt-1" id="genderInput">
+                                        <option value="Male">Male</option>
+                                        <option value="Female">Female</option>
+                                        <option value="Other">Other</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mt-2">
+                                <div class="form-group">
+                                    <label class="control-label">Patient Age</label>
+                                    &nbsp;<span class="text-danger">*</span>
+                                    <input asp-for="PatientAge" id="patientAgeInput" class="form-control mt-1" required="required" />
+                                </div>
+                            </div>
+                            <div class="col-md-6 mt-2">
+                                <div class="form-group">
+                                    <label class="control-label">Mobile</label>
+                                    <input asp-for="VisitorMobile" class="form-control mt-1" readonly="readonly" />
+                                </div>
+                            </div>
+                            <div class="col-md-12 mt-2">
+                                <div class="form-group">
+                                    <label class="control-label">Address</label>
+                                    <textarea asp-for="VisitorAddress" class="form-control mt-1" readonly="readonly"></textarea>
+                                </div>
+                            </div>
+                            @if (@ViewBag.PreviousDate != null && ViewBag.PreviousSlot != null)
+                            {
+                                <div class="col-md-6 mt-2">
+                                    <div class="form-group">
+                                        <label class="control-label">Previous Date</label>
+                                        <input value="@ViewBag.PreviousDate" class="form-control mt-1" readonly="readonly" />
+                                    </div>
+                                </div>
+                                <div class="col-md-6 mt-2">
+                                    <div class="form-group">
+                                        <label class="control-label">Previous Slot</label>
+                                        <input value="@ViewBag.PreviousSlot" class="form-control mt-1" readonly="readonly" />
+                                    </div>
+                                </div>
+                            }
+                            <div class="col-md-6 mt-2">
+                                <div class="form-group">
+                                    <label class="control-label">Doctor Services Date</label>
+                                    &nbsp;<span class="text-danger">*</span>
+                                    @Html.DropDownList("weekDaysId", new SelectList(ViewBag.ServiceDate, "Id", "Date"), "---Select Doctor Services Date---", new { @class = "form-control mt-1", @required = "required", @onchange = "LoadAppointmentTime()" })
+                                </div>
+                            </div>
+                            <div class="col-md-6 mt-2" id="serviceTimeidAdd" style="display:none">
+                                <div class="form-group">
+                                    <label class="control-label">Service Time</label>
+                                    &nbsp;<span class="text-danger">*</span>
+                                    <select class="form-control" name="ServiceTimeAdd" id="ServiceTimeAdd" onchange="GetIndividualTimeSlot()">
+                                        <option value="">---Select Service Time---</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mt-2" id="TimeSlotDiv">
+                                <div class="form-group">
+                                    <label class="control-label font-weight-bolder">Time Slot</label>
+                                    &nbsp;<span class="text-danger">*</span>
+                                    <select id="TimeSlotId" name="TimeSlot" class="form-control mt-1" required="required">
+                                        <option value="">Select Time Slot</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mt-2">
+                                <div class="form-group">
+                                    <label class="control-label">Appointment Type</label>
+                                    &nbsp;<span class="text-danger">*</span>
+                                    @Html.DropDownList("AppointmentTypeId", new SelectList(ViewBag.AppointmentType, "Id", "Name"), "---Select Appointment Type---", new { @class = "form-control mt-1", @required = "required" })
+                                </div>
+                            </div>
+                            <div class="col-md-12 mt-4">
+                                <button type="submit" name="btnValue" id="submitBtn" class="btn btn-success w-100 py-2">Submit</button>
+                            </div>
+                        </div>
+                    </form>
+                </section>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+
+<script src="~/Design/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="~/js/sweetalert.all.min.js"></script>
+<script src="~/js/SweetAlert.js"></script>
+<script>
+    function LoadAppointmentTime() {
+        var weekDaysId = $("#weekDaysId").val();
+        var selectedOptionText = $("#weekDaysId option:selected").text();
+        $("#DateStringId").val(selectedOptionText);
+        var DoctorId = $("#DoctorId").val();
+        var BranchId = $("#BranchId").val();
+        var DepartmentId = $("#DepartmentId").val();
+
+        if (weekDaysId) {
+            $.ajax({
+                url: "/Home/LoadAppointmentTime",
+                type: 'POST',
+                data: { weekDaysId: weekDaysId, doctorId: DoctorId, branchId: BranchId, departmentId: DepartmentId, dateString: selectedOptionText },
+                success: function (data) {
+                    if (data) {
+                        if (data.serviceId == null) {
+                            $("#serviceTimeidAdd").css('display', 'block');
+                            $("#ServiceTimeAdd").prop('required', true);
+                            $('#TimeSlotId').empty();
+                            $('#TimeSlotId').append('<option value="">---Select Time Slot---</option>');
+                            var dropdown = $('#ServiceTimeAdd');
+                            dropdown.empty();
+                            dropdown.append('<option value="">---Select Service Time---</option>');
+                            data.forEach(function (result) {
+                                $('#ServiceTimeAdd').append('<option value="' + result + '">' + result + '</option>');
+                            });
+                           
+                        } else {
+                            $("#ServiceId").val(data.serviceId);
+
+                            if (data.isTimeSlotWise == false) {
+                                $("#TimeSlotDiv").css('display', 'none');
+                                $("#TimeSlotId").prop('required', false);
+                            } else {
+                                var minuteIntervals = data.minuteIntervals;
+                                $("#TimeSlotDiv").css('display', 'block');
+                                $("#TimeSlotId").prop('required', true);
+                                var TimeSlotDropdown = $("#TimeSlotId");
+                                TimeSlotDropdown.empty();
+                                TimeSlotDropdown.append('<option value="">Select Time Slot</option>');
+
+                                $.each(minuteIntervals, function (i, TimeSlot) {
+                                    TimeSlotDropdown.append($('<option></option>').val(TimeSlot).text(TimeSlot));
+                                });
+                            }
+                        }
+                    } else {
+                        $("#TimeSlotId").empty().append('<option value="">---Select Time Slot---</option>');
+                    }
+                }
+            });
+        }
+    }
+
+    function GetIndividualTimeSlot() {
+        var time = $("#ServiceTimeAdd").val();
+        var weekDayId = $("#weekDaysId").val();
+        var selectedOptionText = $("#weekDaysId option:selected").text();
+        $("#DateStringId").val(selectedOptionText);
+        var doctorId = $("#DoctorId").val();
+        var branchId = $("#BranchId").val();
+        var departmentId = $("#DepartmentId").val();
+        $.ajax({
+            url: '/Home/GetIndividualTimeSlot',
+            type: 'GET',
+            data: { date: selectedOptionText, time: time, weekDayId: weekDayId, doctorId: doctorId, departmentId: departmentId,branchId:branchId },
+            success: function (result) {
+                $("#ServiceId").val(result.serviceId);
+                if (result.isTimeSlotWise == false) {
+
+                    $("#TimeSlotDiv").css('display', 'none');
+                    $("#TimeSlotId").prop('required', false);
+                   
+                } else {
+
+                    $("#TimeSlotDiv").css('display', 'block');
+                    $("#TimeSlotId").prop('required', true);
+                   
+                    var dropdown = $('#TimeSlotId');
+                    dropdown.empty();
+                    dropdown.append('<option value="">---Select Time Slot---</option>');
+                    if (result && result.minuteIntervals && Array.isArray(result.minuteIntervals)) {
+                        result.minuteIntervals.forEach(function (timeSlot) {
+                            dropdown.append('<option value="' + timeSlot + '">' + timeSlot + '</option>');
+                        });
+
+                    } else {
+                        console.error('Unexpected format in the result.');
+                    }
+                }
+            }
+        });
+    }
+</script>

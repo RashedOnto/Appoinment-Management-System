@@ -1,0 +1,37 @@
+﻿@model IEnumerable<AppointmentManagementSystem.Models.Branch>
+@{
+    int count = 1;
+}
+<table class="table table-striped table-borderless custrom-table mb-2 mt-2" id="table">
+    <thead>
+        <tr>
+            <th>SL</th>
+            <th>Branch Name</th>
+            
+            <th style="width:30% !important">Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+          
+            <tr>
+                <td>@(count++)</td>
+                <td>@item.Name</td>
+              
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-primary Font-Size"><i class="fa fa-edit mr-1" aria-hidden="true"></i>Edit</a>
+                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger Font-Size" onclick="return confirm('Are you sure delete this branch ?')"><i class="fa fa-trash mr-1" aria-hidden="true"></i>Delete</a>
+                </td>
+            </tr>
+
+
+        }
+    </tbody>
+</table>
+
+<script>
+    $(document).ready(function () {
+        $('#table').DataTable();
+    });
+</script>

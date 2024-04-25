@@ -1,0 +1,149 @@
+﻿@model IEnumerable<AppointmentManagementSystem.Models.Department>
+
+@{
+    ViewData["Title"] = "Index";
+}
+<style>
+    .control-label, .form-control, .Font-Size {
+        font-size: 15px;
+    }
+</style>
+
+<div class="justify-content-center p-4 m-4">
+    <div class="row bg-white rounded border shadow-sm p-4">
+        <div class="col-md-12">
+            <div id="messageDiv"></div>
+        </div>
+        <div class="col-md-6">
+            <h4 class="float-left">Department List</h4>
+        </div>
+        <div class="col-md-6">
+            <button class="btn btn-primary float-right Font-Size mb-2" onclick="OpenModal()"><i class="fa fa-plus mr-1"></i>Add Department</button>
+        </div>
+        <div class="col-md-12 text-center" id="tableData"><img id="loader" style="display:none; width: 20%; margin-top:5%; margin:auto" src="~/Images/loder.gif" /></div>
+    </div>
+</div>
+
+<!-- Add and Edit Modal -->
+<div class="modal fade" id="addEditModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="ModalLabel">Add Department</h5>
+                <button type="button" class="close" aria-label="Close" onclick="CloseModal()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label class="control-label">Name</label>
+                            &nbsp;<span class="text-danger">*</span>
+                            <input name="Id" type="hidden" id="Id" class="form-control" />
+                            <input name="Name" id="Name" required="required" class="form-control" />
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" onclick="CloseModal()">Close</button>
+                <button type="submit" name="btnValue" id="submitBtn" class="btn btn-primary" onclick="AddDepartment()">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+@section scripts
+    {
+    <script>
+       
+        $(document).ready(function () {
+            $("#Settings").css("display", "block");
+            $("#Department").addClass("active");
+            LoadDepartment();
+        });
+
+        function OpenModal() {
+            $("#submitBtn").text("Save");
+            $("#ModalLabel").text("Add Department");
+            $('#addEditModal').find('input').val('');
+            $('#addEditModal').modal("show");
+        }
+
+        function CloseModal() {
+            $('#addEditModal').modal("hide");
+        }
+
+        function AddDepartment() {
+            var id = $('#Id').val();
+            var name = $('#Name').val();
+            $.ajax({
+                url: "/Department/Add",
+                type: "POST",
+                data: { Id: id, Name: name },
+                success: function (response) {
+                    if (response.success) {
+                        $('#addEditModal').modal('hide');
+                        $('#addEditModal').find('input').val('');
+                        $("#messageDiv").html("<div class='alert alert-success text-center'>" + response.successMessage + "</div>");
+                        LoadDepartment();
+                    } else {
+                        $("#messageDiv").html("<div class='alert alert-danger text-center'>" + response.errorMessage + "</div>");
+                    }
+                },
+                error: function (error) {
+                    console.error("Error:", error);
+                }
+            });
+        }
+
+
+        function EditDepartment(id, name) {
+            $('#Id').val(id);
+            $('#Name').val(name);
+            $('#submitBtn').text('Update');
+            $("#ModalLabel").text("Edit Department");
+            $('#addEditModal').modal("show");
+        }
+        function DeActiveDepartment(id) {
+            if (confirm("Are you sure you want to deactivate this department?")) {
+                $.ajax({
+                    url: "/Department/DeActiveDepartment",
+                    type: "POST",
+                    data: { Id: id },
+                    success: function (response) {
+                        if (response.success) {
+                            $("#messageDiv").html("<div class='alert alert-success text-center'>" + response.successMessage + "</div>");
+                            LoadDepartment();
+                        } else {
+                            $("#messageDiv").html("<div class='alert alert-danger text-center'>" + response.errorMessage + "</div>");
+                        }
+                    },
+                    error: function (error) {
+                        console.error("Error:", error);
+                    }
+                });
+            }
+            return false;
+        }
+
+
+        function LoadDepartment() {
+            $('#loader').show();
+            $.ajax({
+                url: "/Department/LoadDepartment",
+                type: "POST",
+                success: function (response) {
+                    $("#tableData").html("");
+                    $("#tableData").append(response);
+                    $('#loader').hide();
+                }
+            });
+        }
+    </script>
+}

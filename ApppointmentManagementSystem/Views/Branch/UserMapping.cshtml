@@ -1,0 +1,106 @@
+﻿@model AppointmentManagementSystem.Models.BranchPermission
+@{
+    ViewData["Title"] = "BranchWiseDepartment";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+<style>
+    Font-Size {
+        font-size: 15px;
+    }
+</style>
+<div class="ml-5 mt-2 h6"><label id="textChange"> Settings >Branch Permission</label></div>
+<div class="bg-white p-3 ml-5 mr-5">
+    <div class="row">
+        <div class="col-6">
+            <h4 class="float-left" id="headChange">Branch Permission</h4>
+        </div>
+
+    </div>
+    <div class="form-signin create-form bg-white rounded border shadow-sm p-4">
+        <div class="text-center mb-4">
+            <div id="errorDiv" class="text-center" style="color: red">@ViewBag.ErrorMessage</div>
+        </div>
+
+        <div class="row Font-Size">
+            <div class="form-group col-md-6">
+                <label class="control-label">Branch Name</label>
+                @Html.DropDownList("BranchId", new SelectList(ViewBag.BranchList, "Id", "Name"), "---Select Branch---", new { @class = "form-control", @required = "required", @onchange = "LoadUser()" })
+            </div>
+            <div class="form-group col-md-6">
+                <label class="control-label">Users Name</label>
+                @Html.DropDownList("UserId", new SelectList(string.Empty, "Id", "Name"), "---Select User---", new { @class = "form-control", @required = "required", @onchange = "LoadBranch()" })
+            </div>
+
+            <div class="form-group col-md-12">
+                <div id="branchList"></div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+@section scripts
+{
+    <script>
+        $(document).ready(function () {
+            $("#Settings").css("display", "block");
+            $("#UserMapping").addClass("active");
+        });
+        function LoadUser() {
+            var branchId = $("#BranchId").val();
+            $("#branchList").html("");
+            $.ajax({
+                url: '/Branch/LoadUser',
+                data: { branchId: branchId },
+                type: "POST",
+                success: function (res) {
+                    $("#UserId").html("");
+                    var option = "<option>---Select User---</option>"
+                    $.each(res, function (index, data) {
+                        option += "<option value=" + data.id + ">" + data.name + "</option>"
+                    });
+                    $("#UserId").append(option);
+                }
+            });
+        }
+        function LoadBranch() {
+            var id = $("#UserId").val();
+            $.ajax({
+                url: '/Branch/LoadBranch',
+                type:"POST",
+                data: { userId: id },
+                success: function (res) {
+                    $("#branchList").html("");
+                    $("#branchList").append(res);
+                }
+            });
+        }
+        function SaveBranchMapping() {
+            var userId = $("#UserId").val();
+            var branchIdArray = [];
+            $('input.allCheckbox[type=checkbox]').each(function () {
+                if (this.checked)
+                    branchIdArray.push(
+                        $(this).val()
+                    );
+            });
+            var branchIds = JSON.stringify(branchIdArray);
+            $.ajax({
+
+                url: "/Branch/InsertUserMapping",
+                data: { userId: userId, branchIds: branchIds },
+                type: "POST",
+                success: function (res) {                  
+                    if (res.success) {
+                        alert("Branch Saved Successfully.");
+                    } else {
+                        alert("Not Saved. Please try again. Error: " + res.message);
+                    }
+                }
+            });
+        }
+
+    </script>
+}

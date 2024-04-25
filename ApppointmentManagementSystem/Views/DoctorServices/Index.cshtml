@@ -1,0 +1,646 @@
+﻿@model IEnumerable<AppointmentManagementSystem.Models.DoctorServices>
+
+@{
+    ViewData["Title"] = "Index";
+    int count = 1;
+}
+<style>
+    .control-label, .form-control, .Font-Size {
+        font-size: 15px;
+    }
+</style>
+<div class="bg-white p-3 ml-2 mr-2">
+    <div class="row">
+        <div class="col-6">
+            <h4 class="float-left">Doctor Services List</h4>
+        </div>
+        <div class="col-6">
+            <button class="btn btn-primary float-right Font-Size mb-2" onclick="DoctorAssign()"><i class="fa fa-plus mr-1"></i>Add Doctor Services</button>
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-group col-md-4">
+            <label>Department Name</label>
+            @Html.DropDownList("DepartmentId", new SelectList(ViewBag.DepartmentList, "DepartmentId", "Name"), "---Select Department---", new { @class = "form-control", @required = "required", @onchange = "ShowServiceList('department')" })
+
+        </div>
+        <div class="form-group col-md-4">
+            <label>Doctor</label>
+
+            <select class="form-control" name="cascadeDoctor" id="cascadeDoctor" onchange="ShowServiceList()">
+                <option value="">---Select Doctor---</option>
+            </select>
+        </div>
+        <div class="form-group col-md-4">
+            <label>Days</label>
+            @Html.DropDownList("DayId", new SelectList(ViewBag.DayList, "Id", "Name"), "---Select Day---", new { @class = "form-control", @required = "required", @onchange = "ShowServiceList()" })
+
+        </div>
+    </div>
+    <div id="ErrorMsg" style="text-align: center;" class="col-md-12">
+        <label style="color:green" class="col-md-12"><span id="SuccessMessageDiv">@ViewBag.SuccessMessage</span></label>
+        <label style="color:red" class="col-md-12"><span id="ErrorMessageDiv">@ViewBag.ErrorMessage</span></label>
+    </div>
+
+    <div class="table-responsive" id="DoctorServicesTable">
+        <div class="col-md-12 text-center">
+            <img class="text-center" id="loader" style="display:none; width: 20%; margin-top:5%; margin:auto; filter: grayscale(100%) brightness(50%) sepia(100%) hue-rotate(0deg) saturate(500%) contrast(1);" src="~/Images/loder.gif" />
+        </div>
+
+    </div>
+</div>
+<div class="modal" tabindex="-1" id="DoctorServicesModal">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalTitle"></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" onclick="ClearAll()" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mx-auto text-center mt-3 mb-3" style="background-color:#054468; color:white" id="title">Add Doctor Services</div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <input type="hidden" id="DSId" name="DSId" />
+                        <div class="form-group">
+                            <label for="dName">Department Name</label>
+                            @*  <select class="form-control" name="dName" id="dName">
+                            <option value="">---Select Department---</option>
+                            </select>*@
+                            @Html.DropDownList("dName", new SelectList(ViewBag.DepartmentList, "DepartmentId", "Name"), "---Select Department---", new { @class = "form-control", @required = "required" })
+                        </div>
+
+                        <div class="form-group">
+                            <label>Start Time</label>
+                            <input type="time" class="form-control" name="sTime" id="sTime" />
+                        </div>
+                        <div class="form-group">
+                            <label>No Of Patient</label>
+                            <input type="number" class="form-control" name="noOfPatient" id="noOfPatient" />
+                        </div>
+                        <div class="form-group">
+                            <label for="wName">Week Days</label>
+                            @Html.DropDownList("wName", new SelectList(ViewBag.DayList, "Id", "Name"), "---Select Day---", new { @class = "form-control", @required = "required" })
+                        </div>
+
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="doctorName">Doctor Name</label>
+                            @Html.DropDownList("doctorName", new SelectList(ViewBag.DoctorList, "Id", "Name"), "---Select Doctor---", new { @class = "form-control", @required = "required" })
+                            @*  <select class="form-control" name="doctorName" id="doctorName">
+                            <option value="">---Select Doctor---</option>
+                            </select>*@
+                        </div>
+
+                        <div class="form-group">
+                            <label>End Time</label>
+                            <input type="time" class="form-control" name="eTime" id="eTime" />
+                        </div>
+                        <div class="form-group">
+                            <label>No Of Extra Patient</label>
+                            <input type="number" class="form-control" name="noOfExtraPatient" id="noOfExtraPatient" />
+                        </div>
+                        <div class="form-group mt-5">
+                            <label>IsTimeSlot</label>
+                            <input type="checkbox" name="isTimeSlot" id="isTimeSlot" />
+                        </div>
+                    </div>
+                    <div class="">
+                        <table id="appointmenttypeData" class="col-md-12">
+                        </table>
+                    </div>
+                    <div class="form-group mx-auto text-center mt-2">
+                        @*<button id="submitButton" style="width:100%; background-color:#054468; border:none; height:50px; color:white" onclick="fnAssignDoctor() ">Save</button>*@
+                        <button type="button" style="width:100%; background-color:#054468; border:none; height:50px; color:white" id="btnSave" onclick="fnAssignDoctor()">Save</button>
+                        <button type="button" style="width:100%; background-color:#054468; border:none; height:50px; color:white" id="btnUpdate" onclick="fnUpdateDoctorInfo(document.getElementById('DSId').value)">Update</button>
+                    </div>
+                </div>
+            </div>
+            @* <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" onclick="ClearAll()" data-bs-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary" id="btnSave" onclick="fnAddAppointmentType()">Save</button>
+            <button type="button" class="btn btn-primary" id="btnUpdate" onclick="fnUpdateAppointmentType()">Update</button>
+            </div>*@
+        </div>
+    </div>
+</div>
+@*<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>*@
+@section scripts {
+    <script>
+        $(document).ready(function () {
+            $("#Doctor").css("display", "block");
+            $("#DoctorServices").addClass("active");
+            //loadData();
+        });
+        function ClearAll() {
+            $('#dName').val("");
+            $('#sTime').val("");
+            $('#noOfPatient').val("");
+            $('#doctorName').val("");
+            $('#eTime').val("");
+            $('#noOfExtraPatient').val("");
+            $('#isTimeSlot').prop('checked', false);
+            $('#wName').val("");
+        }
+        function DoctorAssign() {
+            $("#btnUpdate").css("display", "none");
+            $("#btnSave").css("display", "block");
+            $("#modalTitle").html("Add Doctor Services");
+            $("#title").html("Add Doctor Service")
+            getAppointmentType();
+            // GetDepartment();
+            //GetWeekDays();
+            // GetDoctor();
+            $('#DoctorServicesModal').modal("show");
+        }
+        function convertTo24HourFormat(time12h) {
+            if (!time12h) {
+                return '';
+            }
+
+            var [time, period] = time12h.split(' ');
+            if (period === 'AM' && time.startsWith('12')) {
+                time = '00' + time.slice(2);
+            } else if (period === 'PM' && time.startsWith('12')) {
+            } else if (period === 'PM') {
+                var [hours, minutes] = time.split(':');
+                time = (parseInt(hours, 10) + 12).toString().padStart(2, '0') + ':' + minutes;
+            }
+            return time;
+        }
+        function convertTo24HourFormatEnd(time12h) {
+            if (!time12h) {
+                return '';
+            }
+
+            var [time, period] = time12h.split(' ');
+            if (period === 'AM' && time.startsWith('12')) {
+                time = '00' + time.slice(2);
+            } else if (period === 'PM' && time.startsWith('12')) {
+            } else if (period === 'PM') {
+                var [hours, minutes] = time.split(':');
+                time = (parseInt(hours, 10) + 12).toString().padStart(2, '0') + ':' + minutes;
+            }
+            return time;
+        }
+
+        function UpdateDoctorInfo(id, departmentId, doctorId, dayId, time, totalPatient, extraPatient, isSlot) {
+
+            const [start, end] = time.split('-');
+            var formattedStartTime = convertTo24HourFormat(start);
+            var formattedEndTime = convertTo24HourFormatEnd(end);
+            document.getElementById("DSId").value = id;
+
+            $("#noOfPatient").val(totalPatient);
+            $("#noOfExtraPatient").val(extraPatient);
+            $("#sTime").val(formattedStartTime);
+            $("#eTime").val(formattedEndTime);
+            $("#dName").val(departmentId);
+            $("#doctorName").val(doctorId);
+            $("#wName").val(dayId);
+            if (isSlot == "true") {
+                $('#isTimeSlot').prop('checked', true);
+            } else {
+                $('#isTimeSlot').prop('checked', false);
+            }
+            getAppointmentTypeForUpdate(id);
+            $("#btnUpdate").css("display", "block");
+            $("#btnSave").css("display", "none");
+            $("#modalTitle").html("Update Assign Doctor")
+            $("#title").html("Update Doctor Service")
+            $('#DoctorServicesModal').modal("show");
+        }
+
+        function fnAssignDoctor() {
+            var departmentId = $('#dName').val();
+            var startTime = $('#sTime').val();
+            var noOfPatient = $('#noOfPatient').val();
+            var doctorId = $('#doctorName').val();
+            var endTime = $('#eTime').val();
+            var noOfExtraPatient = $('#noOfExtraPatient').val();
+            var isTimeSlot = $('#isTimeSlot').is(':checked');
+            var weekdayId = $('#wName').val();
+            var dataToSend = [];
+            $('#table tbody tr').each(function () {
+                var id = $(this).find('.name-cell').attr('id');
+                var fee = $(this).find('input').val();
+                dataToSend.push({ id: id, fee: fee });
+            });
+
+            var ids = [];
+            var fees = [];
+            dataToSend.forEach(function (item) {
+                ids.push(item.id);
+                fees.push(item.fee);
+            });
+            var typeId = JSON.stringify(ids);
+            var visitFee = JSON.stringify(fees);
+
+            $.ajax({
+                type: "POST",
+                url: "/DoctorServices/Add",
+                data: {
+                    departmentId: departmentId,
+                    startTime: startTime,
+                    noOfPatient: noOfPatient,
+                    doctorId: doctorId,
+                    endTime: endTime,
+                    noOfExtraPatient: noOfExtraPatient,
+                    isTimeSlot: isTimeSlot,
+                    weekdayId: weekdayId,
+                    typeId: typeId,
+                    visitFee: visitFee
+                },
+                success: function (result) {
+                    $("#SuccessMessageDiv").html("<div class='alert alert-primary'>" + result.errorMessage + "</div>");
+                    $('#DoctorServicesModal').modal("hide");
+                    //loadData();
+                    loadSaveDoctor();
+                },
+                error: function (error) {
+                    $("#SuccessMessageDiv").html("<div class='alert alert-danger'>" + result.errorMessage + "</div>");
+                    //loadData();
+                }
+            });
+        }
+        function fnUpdateDoctorInfo(id) {
+            var departmentId = $('#dName').val();
+            var startTime = $('#sTime').val();
+            var noOfPatient = $('#noOfPatient').val();
+            var doctorId = $('#doctorName').val();
+            var endTime = $('#eTime').val();
+            var noOfExtraPatient = $('#noOfExtraPatient').val();
+            var isTimeSlot = $('#isTimeSlot').is(':checked');
+            var weekdayId = $('#wName').val();
+            var dataToSend = [];
+            $('#table tbody tr').each(function () {
+                var id = $(this).find('.name-cell').attr('id');
+                var fee = $(this).find('input').val();
+                dataToSend.push({ id: id, fee: fee });
+            });
+            var ids = [];
+            var fees = [];
+            dataToSend.forEach(function (item) {
+                ids.push(item.id);
+                fees.push(item.fee);
+            });
+            var typeId = JSON.stringify(ids);
+            var visitFee = JSON.stringify(fees);
+            $.ajax({
+                type: "POST",
+                url: "/DoctorServices/UpdateDoctorAssignInfo",
+                data: {
+                    id: id,
+                    departmentId: departmentId,
+                    startTime: startTime,
+                    noOfPatient: noOfPatient,
+                    doctorId: doctorId,
+                    endTime: endTime,
+                    noOfExtraPatient: noOfExtraPatient,
+                    isTimeSlot: isTimeSlot,
+                    weekdayId: weekdayId,
+                    typeId: typeId,
+                    visitFee: visitFee
+                },
+                success: function (result) {
+                    $("#SuccessMessageDiv").html("<div class='alert alert-primary'>" + result.errorMessage + "</div>");
+                    $('#DoctorServicesModal').modal("hide");
+                    loadSaveDoctor();
+                },
+                error: function (error) {
+                    $("#SuccessMessageDiv").html("<div class='alert alert-danger'>" + result.errorMessage + "</div>");
+
+                }
+            });
+        }
+        function fnDeleteData(id) {
+
+            let text = "Are you sure to delete this doctor service Type?"
+            if (confirm(text) == true) {
+                $.ajax({
+                    type: "POST",
+                    url: "/DoctorServices/Delete",
+                    data: { "id": id },
+                    success: function (result) {
+                        //$("#SuccessMessageDiv").html("<div class='alert alert-danger'>" + result.errorMessage + "</div>");
+                        $("#SuccessMessageDiv").html("<div class='alert alert-primary'>" + result.errorMessage + "</div>");
+                        loadSaveDoctor();
+                    },
+                    error: function (error) {
+                        loadSaveDoctor();
+                        $("#SuccessMessageDiv").html("<div class='alert alert-danger'>" + error.errorMessage + "</div>");
+                    }
+                });
+
+            } else {
+
+            }
+        }
+      
+        function getAppointmentType() {
+            $.ajax({
+                url: '/DoctorServices/GetAppointmentType',
+                type: 'GET',
+                success: function (result) {
+                    var AppointmenttypeData = $('#appointmenttypeData');
+                    AppointmenttypeData.empty();
+                    var typeTable = '<table class="table table-striped table-bordered custrom-table mb-2" id="table"><thead><tr><th>Appointment Type</th><th>Doctor Visit</th></tr></thead><tbody>';
+                    $.each(result, function (index, item) {
+                        var newRow = `<tr>
+                                <td class="name-cell" data-index="${index}" id="${item.id}">${item.name}</td>
+                                <td><input type="text" name="${name}[${index}]" id="${name}_input_${index}" /></td>
+                                </tr>`;
+                        typeTable += newRow;
+                    });
+                    typeTable += '</tbody></table>';
+                    AppointmenttypeData.append(typeTable);
+                }
+            });
+        }
+        function getAppointmentTypeForUpdate(id) {
+            $.ajax({
+                url: '/DoctorServices/GetAppointmentTypeForUpdate',
+                type: 'GET',
+                data: { id: id },
+                success: function (result) {
+                    var AppointmenttypeData = $('#appointmenttypeData');
+                    AppointmenttypeData.empty();
+                    var typeTable = '<table class="table table-striped table-bordered custrom-table mb-2" id="table"><thead><tr><th>Appointment Type</th><th>Doctor Visit</th></tr></thead><tbody>';
+                    $.each(result, function (index, item) {
+                        var newRow = `<tr>
+                                 <td class="name-cell" data-index="${index}" id="${item.id}">${item.name}</td>
+                                 <td><input type="text" name="${name}[${index}]" id="${name}_input_${index}" value="${item.fee}" /></td>
+                                 </tr>`;
+                        typeTable += newRow;
+                    });
+                    typeTable += '</tbody></table>';
+                    AppointmenttypeData.append(typeTable);
+                }
+            });
+        }
+        // function GetDepartment() {
+        //     $.ajax({
+        //         url: '/DoctorServices/GetDepartment',
+        //         type: 'GET',
+        //         success: function (result) {
+        //             var dropdown = $('#dName');
+        //             dropdown.empty();
+        //             dropdown.append('<option value="">---Select Department---</option>');
+        //             $.each(result, function (index, item) {
+
+        //                 dropdown.append('<option value="' + item.departmentId + '">' + item.name + '</option>');
+        //             });
+        //         }
+        //     });
+        // }
+        // function GetWeekDays() {
+        //     $.ajax({
+        //         url: '/DoctorServices/GetWeekDays',
+        //         type: 'GET',
+        //         success: function (result) {
+        //             var dropdown = $('#wName');
+        //             dropdown.empty();
+        //             dropdown.append('<option value="">---Select Week Day---</option>');
+        //             $.each(result, function (index, item) {
+
+        //                 dropdown.append('<option value="' + item.id + '">' + item.name + '</option>');
+        //             });
+        //         }
+        //     });
+        // }
+        // function GetDoctor() {
+        //     $.ajax({
+        //         url: '/DoctorServices/GetDoctor',
+        //         type: 'GET',
+        //         success: function (result) {
+        //             var dropdown = $('#doctorName');
+        //             dropdown.empty();
+        //             dropdown.append('<option value="">---Select Doctor---</option>');
+        //             $.each(result, function (index, item) {
+
+        //                 dropdown.append('<option value="' + item.id + '">' + item.name + '</option>');
+        //             });
+        //         }
+        //     });
+        // }
+
+        ///for filtering
+        function ShowDepartmentDoctor(departmentId) {
+            //$('#loader').show();
+                
+            $.ajax({
+                url: '/DoctorServices/GetDoctorByDepartmentId',
+                type: 'GET',
+                data: { departmentId: departmentId },
+                success: function (data) {
+
+                    var dropdown = $('#cascadeDoctor');
+                    dropdown.empty();
+                    dropdown.append('<option value="">---Select Doctor---</option>');
+                    $.each(data, function (index, item) {
+
+                        dropdown.append('<option value="' + item.id + '">' + item.name + '</option>');
+                    });
+                },
+                error: function () {
+                    alert('An error occurred while fetching data.');
+                }
+            });
+        }
+        function ShowServiceList(type) {
+            $('#loader').show();          
+            var departmentId = $("#DepartmentId").val();
+            var doctorId = $("#cascadeDoctor").val();
+            var dayId = $("#DayId").val();
+            if(type=='department'){
+                ShowDepartmentDoctor(departmentId);
+                doctorId = null;
+            }
+           
+            $.ajax({
+                url: '/DoctorServices/GetList',
+                type: 'GET',
+                data: { departmentId: departmentId, doctorId: doctorId, weekdayId: dayId },
+                success: function (data) {
+                    var DoctorServicesTable = $('#DoctorServicesTable');
+                    DoctorServicesTable.empty();
+                    var dTable = '<table class="table table-striped table-bordered custrom-table mb-2" id="table"><thead><tr><th>#</th><th>Department Name</th><th>Doctor Name</th><th>Visit Days</th><th>Visit Time</th><th>Visit Fee</th><th>Action</th></tr></thead><tbody>';
+                    $.each(data, function (index, item) {
+                        dTable += '<tr>' +
+                            '<td>' + (index + 1) + '</td>' +
+                            '<td>' + item.departmentName + '</td>' +
+                            '<td>' + item.doctorName + '</td>' +
+                            '<td>' + item.days + '</td>' +
+                            '<td>' + item.time + '</td>' +
+                            '<td>' + item.visitFee + '</td>' +
+                            '<td style="width: 100px !important">' +
+                            '<button class="btn btn-sm btn-primary" type="button" onclick="UpdateDoctorInfo(' + item.doctorServiceId + ',\'' + item.departmentId + '\',\'' + item.doctorId + '\',\'' + item.dayId + '\',\'' + item.time + '\',\'' + item.totalPatient + '\',\'' + item.extraPatient + '\',\'' + item.isTimeSlotWise + '\')"><i class="fas fa-edit" title="Edit"></i></button>' + '&nbsp;' +
+                            '<button type="button" class="btn btn-sm btn-danger" onclick="fnDeleteData(' + item.doctorServiceId + ')"><i class="fa-solid fas fa-trash" title="Delete"></i></button>' +
+                            '</td>' +
+                            '</tr>';
+                    });
+                    dTable += '</tbody></table>';
+                    DoctorServicesTable.append(dTable);
+                    $('#table').DataTable();
+                    $('#loader').hide();
+                },
+                error: function () {
+                    alert('An error occurred while fetching data.');
+                }
+            });
+        }
+        // function ShowDayAndDepartmentWiseDoctor() {
+        //     $('#loader').show();
+        //     var departmentId = $("#DepartmentId").val();
+        //     var dayId = $("#DayId").val();
+
+        //     if (departmentId == 0 && dayId != 0) {
+        //         ShowDayWiseDoctor();
+        //     } else {
+        //         $.ajax({
+        //             url: '/DoctorServices/GetList',
+        //             type: 'GET',
+        //             data: { dayId: dayId, departmentId: departmentId },
+        //             success: function (data) {
+        //                 var DoctorServicesTable = $('#DoctorServicesTable');
+        //                 DoctorServicesTable.empty();
+        //                 var dTable = '<table class="table table-striped table-bordered custrom-table mb-2" id="table"><thead><tr><th>#</th><th>Department Name</th><th>Doctor Name</th><th>Visit Days</th><th>Visit Time</th><th>Visit Fee</th><th>Action</th></tr></thead><tbody>';
+        //                 $.each(data, function (index, item) {
+
+        //                     dTable += '<tr>' +
+        //                         '<td>' + (index + 1) + '</td>' +
+        //                         '<td>' + item.departmentName + '</td>' +
+        //                         '<td>' + item.doctorName + '</td>' +
+        //                         '<td>' + item.days + '</td>' +
+        //                         '<td>' + item.time + '</td>' +
+        //                         '<td>' + item.visitFee + '</td>' +
+        //                         '<td>' +
+        //                         '<button class="btn btn-sm btn-primary" type="button" onclick="UpdateDoctorInfo(' + item.doctorServiceId + ',\'' + item.departmentId + '\',\'' + item.doctorId + '\',\'' + item.dayId + '\',\'' + item.time + '\',\'' + item.totalPatient + '\',\'' + item.extraPatient + '\',\'' + item.isTimeSlotWise + '\')"><i class="fas fa-edit" title="Edit"></i></button>' + '&nbsp;' +
+        //                         '<button type="button" class="btn btn-sm btn-danger" onclick="fnDeleteData(' + item.doctorServiceId + ')"><i class="fa-solid fas fa-trash" title="Delete"></i></button>' +
+        //                         '</td>' +
+        //                         '</tr>';
+        //                 });
+        //                 dTable += '</tbody></table>';
+        //                 DoctorServicesTable.append(dTable);
+        //                 $('#table').DataTable();
+        //                 $('#loader').hide();
+        //             },
+        //             error: function () {
+        //                 alert('An error occurred while fetching data.');
+        //             }
+        //         });
+        //     }
+
+        // }
+        // function ShowDayWiseDoctor() {
+        //     $('#loader').show();
+        //     var dayId = $("#DayId").val();
+        //     $.ajax({
+        //         url: '/DoctorServices/GetList',
+        //         type: 'GET',
+        //         data: { dayId: dayId },
+        //         success: function (data) {
+        //             var DoctorServicesTable = $('#DoctorServicesTable');
+        //             DoctorServicesTable.empty();
+        //             var dTable = '<table class="table table-striped table-bordered custrom-table mb-2" id="table"><thead><tr><th>#</th><th>Department Name</th><th>Doctor Name</th><th>Visit Days</th><th>Visit Time</th><th>Visit Fee</th><th>Action</th></tr></thead><tbody>';
+        //             $.each(data, function (index, item) {
+
+        //                 dTable += '<tr>' +
+        //                     '<td>' + (index + 1) + '</td>' +
+        //                     '<td>' + item.departmentName + '</td>' +
+        //                     '<td>' + item.doctorName + '</td>' +
+        //                     '<td>' + item.days + '</td>' +
+        //                     '<td>' + item.time + '</td>' +
+        //                     '<td>' + item.visitFee + '</td>' +
+        //                     '<td>' +
+        //                     '<button class="btn btn-sm btn-primary" type="button" onclick="UpdateDoctorInfo(' + item.doctorServiceId + ',\'' + item.departmentId + '\',\'' + item.doctorId + '\',\'' + item.dayId + '\',\'' + item.time + '\',\'' + item.totalPatient + '\',\'' + item.extraPatient + '\',\'' + item.isTimeSlotWise + '\')"><i class="fas fa-edit" title="Edit"></i></button>' + '&nbsp;' +
+        //                     '<button type="button" class="btn btn-sm btn-danger" onclick="fnDeleteData(' + item.doctorServiceId + ')"><i class="fa-solid fas fa-trash" title="Delete"></i></button>' +
+        //                     '</td>' +
+        //                     '</tr>';
+        //             });
+        //             dTable += '</tbody></table>';
+        //             DoctorServicesTable.append(dTable);
+        //             $('#table').DataTable();
+        //             $('#loader').hide();
+        //         },
+        //         error: function () {
+        //             alert('An error occurred while fetching data.');
+        //         }
+        //     });
+        // }
+        // function ShowDoctor() {
+        //     $('#loader').show();
+        //     var departmentId = $("#DepartmentId").val();
+        //     var doctorId = $("#cascadeDoctor").val();
+        //     $.ajax({
+        //         url: '/DoctorServices/GetList',
+        //         type: 'GET',
+        //         data: { doctorId: doctorId, departmentId: departmentId },
+        //         success: function (data) {
+        //             var DoctorServicesTable = $('#DoctorServicesTable');
+        //             DoctorServicesTable.empty();
+        //             var dTable = '<table class="table table-striped table-bordered custrom-table mb-2" id="table"><thead><tr><th>#</th><th>Department Name</th><th>Doctor Name</th><th>Visit Days</th><th>Visit Time</th><th>Visit Fee</th><th>Action</th></tr></thead><tbody>';
+        //             $.each(data, function (index, item) {
+
+        //                 dTable += '<tr>' +
+        //                     '<td>' + (index + 1) + '</td>' +
+        //                     '<td>' + item.departmentName + '</td>' +
+        //                     '<td>' + item.doctorName + '</td>' +
+        //                     '<td>' + item.days + '</td>' +
+        //                     '<td>' + item.time + '</td>' +
+        //                     '<td>' + item.visitFee + '</td>' +
+        //                     '<td>' +
+        //                     '<button class="btn btn-sm btn-primary" type="button" onclick="UpdateDoctorInfo(' + item.doctorServiceId + ',\'' + item.departmentId + '\',\'' + item.doctorId + '\',\'' + item.dayId + '\',\'' + item.time + '\',\'' + item.totalPatient + '\',\'' + item.extraPatient + '\',\'' + item.isTimeSlotWise + '\')"><i class="fas fa-edit" title="Edit"></i></button>' + '&nbsp;' +
+        //                     '<button type="button" class="btn btn-sm btn-danger" onclick="fnDeleteData(' + item.doctorServiceId + ')"><i class="fa-solid fas fa-trash" title="Delete"></i></button>' +
+        //                     '</td>' +
+        //                     '</tr>';
+        //             });
+        //             dTable += '</tbody></table>';
+        //             DoctorServicesTable.append(dTable);
+        //             $('#table').DataTable();
+        //             $('#loader').hide();
+        //         },
+        //         error: function () {
+        //             alert('An error occurred while fetching data.');
+        //         }
+        //     });
+        // }
+        function loadSaveDoctor() {
+            $('#loader').show();
+            var departmentId = $('#dName').val();
+            var doctorId = $('#doctorName').val();
+            $.ajax({
+                url: '/DoctorServices/GetList',
+                type: 'GET',
+                data: { doctorId: doctorId, departmentId: departmentId },
+                success: function (data) {
+                    var DoctorServicesTable = $('#DoctorServicesTable');
+                    DoctorServicesTable.empty();
+                    var dTable = '<table class="table table-striped table-bordered custrom-table mb-2" id="table"><thead><tr><th>#</th><th>Department Name</th><th>Doctor Name</th><th>Visit Days</th><th>Visit Time</th><th>Visit Fee</th><th>Action</th></tr></thead><tbody>';
+                    $.each(data, function (index, item) {
+
+                        dTable += '<tr>' +
+                            '<td>' + (index + 1) + '</td>' +
+                            '<td>' + item.departmentName + '</td>' +
+                            '<td>' + item.doctorName + '</td>' +
+                            '<td>' + item.days + '</td>' +
+                            '<td>' + item.time + '</td>' +
+                            '<td>' + item.visitFee + '</td>' +
+                            '<td>' +
+                            '<button class="btn btn-sm btn-primary" type="button" onclick="UpdateDoctorInfo(' + item.doctorServiceId + ',\'' + item.departmentId + '\',\'' + item.doctorId + '\',\'' + item.dayId + '\',\'' + item.time + '\',\'' + item.totalPatient + '\',\'' + item.extraPatient + '\',\'' + item.isTimeSlotWise + '\')"><i class="fas fa-edit" title="Edit"></i></button>' + '&nbsp;' +
+                            '<button type="button" class="btn btn-sm btn-danger" onclick="fnDeleteData(' + item.doctorServiceId + ')"><i class="fa-solid fas fa-trash" title="Delete"></i></button>' +
+                            '</td>' +
+                            '</tr>';
+                    });
+                    dTable += '</tbody></table>';
+                    DoctorServicesTable.append(dTable);
+                    $('#table').DataTable();
+                    $('#loader').hide();
+                },
+                error: function () {
+                    alert('An error occurred while fetching data.');
+                }
+            });
+        }
+    </script>
+}

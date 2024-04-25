@@ -1,0 +1,80 @@
+﻿@{
+    ViewData["Title"] = "Index";
+}
+<style>
+    .control-label, .form-control, .Font-Size {
+        font-size: 15px;
+    }
+</style>
+
+<h1>Appointment List</h1>
+<div class="justify-content-center p-4 m-4">
+    <div class="row bg-white rounded border shadow-sm p-4">
+        <div class="col-md-12">
+            <div id="messageDiv"></div>
+        </div>
+        <div class="col-md-8">
+            <div class="form-group">
+                <label class="control-label">Select Branch</label>
+                @Html.DropDownList("RoleId", new SelectList(ViewBag.RoleList, "Id", "Name"), "Select Role", new { @class = "form-control",@onchange="LoadSubmenu()" })
+            </div>
+        </div>
+        
+
+        <div class="col-md-12 text-center" id="tableData" style="overflow:auto"><img id="loader" style="display:none; width: 20%; margin-top:5%; margin:auto" src="~/Images/loder.gif" /></div>
+    </div>
+</div>
+
+
+
+
+@section scripts
+{
+    <script>
+        $(document).ready(function () {
+            $("#Role").css("display", "block");
+            $("#RolePermission").addClass("active");
+        });
+        function LoadSubmenu(){
+
+            $('#loader').show();
+            $.ajax({
+                url: "/Role/LoadSubMenu",
+                data: { roleId: $("#RoleId").val() },
+                type: "POST",
+                success: function (response) {
+                    $("#tableData").html("");
+                    $("#tableData").append(response);
+                    $('#loader').hide();
+                }
+            });        
+        }
+        function SaveSubmenuRole() {
+            var roleId = $("#RoleId").val();
+            var submenuIdArray = [];
+            $('input.allCheckbox[type=checkbox]').each(function () {
+                if (this.checked)
+                    submenuIdArray.push(
+                        $(this).val()
+                    );
+            });
+            var submenuId = JSON.stringify(submenuIdArray);
+
+            $.ajax({
+                type: "POST",
+                url: "/Role/InsertRoleMapping",
+                data: { submenuId: submenuId, roleId: roleId },
+                success: function (res) {
+                    if (res == true) {
+                        alert("Saved");
+                    } else {
+                        alert("Not Save. Please try again")
+
+                    }
+                }
+            });
+        }
+
+
+    </script>
+}

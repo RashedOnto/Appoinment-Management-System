@@ -1,0 +1,380 @@
+﻿@model IEnumerable<AppointmentManagementSystem.Models.UserInfo>
+
+@{
+    ViewData["Title"] = "Index";
+}
+<style>
+    .control-label, .form-control, .Font-Size {
+        font-size: 15px;
+    }
+</style>
+<div class="justify-content-center p-4 m-4">
+    <div class="row bg-white rounded border shadow-sm p-4">
+        <div class="col-md-12">
+            <div id="messageDiv"></div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label class="control-label">Select Branch Name</label>
+                @Html.DropDownList("BranchId", new SelectList(ViewBag.Branches, "Id", "Name"), "Select Branch", new { @class = "form-control",@onchange="LoadUser()" })
+            </div>
+        </div>
+        <div class="col-md-4">
+            <h4 class="float-left">User List</h4>
+        </div>
+        <div class="col-md-4">
+            <button class="btn btn-primary float-right Font-Size mb-2" onclick="OpenModal()"><i class="fa fa-plus mr-1"></i>Add User</button>
+        </div>
+        <div class="col-md-12 text-center" id="tableData"><img id="loader" style="display:none; width: 20%; margin-top:5%; margin:auto" src="~/Images/loder.gif" /></div>
+    </div>
+</div>
+
+<!-- Add and Edit Modal -->
+<div class="modal fade bd-example-modal-lg" id="userAddEditModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="ModalLabel">Add User</h5>
+                <button type="button" class="close" aria-label="Close" onclick="CloseUserAddEditModal()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <input type="hidden" name="Id" id="IdInput" class="form-control" />
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="control-label">Name</label>
+                            &nbsp;<span class="text-danger">*</span>
+                            <input name="Name" id="nameInput" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="control-label">Designation</label>
+                            &nbsp;<span class="text-danger">*</span>
+                            @Html.DropDownList("designationInput", new SelectList(ViewBag.DesignationList, "Id", "Name"),"---Select Designation---", new { @class = "form-control", @name="desId"})
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="control-label">Branch</label>
+                            &nbsp;<span class="text-danger">*</span>
+                            @Html.DropDownList("branchInput", new SelectList(ViewBag.Branches, "Id", "Name"),"---Select Branch---", new { @class = "form-control"})
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="control-label">Mobile</label>
+                            &nbsp;<span class="text-danger">*</span>
+                            <input name="Mobile" required="required" id="mobileInput" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="col-md-4" id="dovDiv">
+                        <div class="form-group">
+                            <label class="control-label">Date of Birth</label>
+                            &nbsp;<span class="text-danger">*</span>
+                            <input type="date" name="DOB" id="dobInput" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="col-md-4" id="dovTextDiv" style="display:none">
+                        <div class="form-group">
+                            <label class="control-label">Date of Birth</label>
+                            &nbsp;<span class="text-danger">*</span>
+                            <input type="text" name="DOB" id="dobTextInput" class="form-control" onclick="DobShow()" />
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="control-label">Gender</label>
+                            &nbsp;<span class="text-danger">*</span>
+                            <select name="Gender" class="form-control" id="genderInput">
+                                <option value="">---Select Gender---</option>
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="control-label">Father Name</label>
+                            <input name="fatherName" class="form-control" id="fatherNameInput" />
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="control-label">Mother Name</label>
+
+                            <input name="motherName" class="form-control" id="motherNameInput" />
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="control-label">Email</label>
+                            &nbsp;<span class="text-danger">*</span>
+                            <input name="Email" class="form-control" id="emailInput" />
+                        </div>
+                    </div>
+                    <div class="col-md-4" id="PasswordDiv">
+                        <div class="form-group">
+                            <label class="control-label">Password</label>
+                            &nbsp;<span class="text-danger">*</span>
+                            <input name="Password" class="form-control" id="passwordInput" />
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="control-label">Role</label>
+                            &nbsp;<span class="text-danger">*</span>
+                            @Html.DropDownList("roleInput", new SelectList(ViewBag.RoleList, "Id", "Name"),"---Select Role---", new { @class = "form-control"})
+                        </div>
+                    </div>
+                    <div class="col-md-4" id="ImageDiv">
+                        <div class="form-group">
+                            <label class="control-label">Image</label>
+                            <input type="file" name="Image" class="form-control" id="imageInput" onchange="displayImage(this)" />
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group text-center">
+                            <img id="previewImage" style="height: 70px; width: 70px;" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" onclick="CloseUserAddEditModal()">Close</button>
+                <button name="btnValue" id="submitBtn" class="btn btn-primary" onclick="AddUserData()">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+@section scripts
+    {
+    <script>
+        $(document).ready(function () {
+            $("#Settings").css("display", "block");
+            $("#User").addClass("active");
+        });
+
+        function OpenModal() {
+            $("#PasswordDiv").css('display', 'block')
+            $("#submitBtn").text("Save");
+            $("#ModalLabel").text("Add User");
+            $('#userAddEditModal').find('input').val('');
+            $('#previewImage').attr('src', '');
+            $('#designationInput').val('');
+            $('#branchInput').val('');
+            $('#roleInput').val("");
+            $('#genderInput').val("");            
+            $('#userAddEditModal').modal("show");
+        }
+
+        function CloseUserAddEditModal() {
+            $('#userAddEditModal').modal("hide");
+        }
+
+        function displayImage(input) {
+            var imageDiv = document.getElementById('ImageDiv');
+            var previewImage = document.getElementById('previewImage');
+
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    previewImage.src = e.target.result;
+                };
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        function AddUserData() {
+            var id = $("#IdInput").val();
+            var name = $("#nameInput").val();
+            var designationId = $("#designationInput").val();
+            var branchId = $("#branchInput").val();
+            var mobile = $("#mobileInput").val();
+            var dob = $("#dobInput").val();
+            var gender = $("#genderInput").val();
+            var fatherName = $("#fatherNameInput").val();
+            var motherName = $("#motherNameInput").val();
+            var email = $("#emailInput").val();
+            var password = $("#passwordInput").val();
+            var roleId = $("#roleInput").val();
+
+
+
+
+            var isValid = true;
+            var errorMessage = "";
+
+            // Check if any of the required fields is empty
+            if (name === "" || designationId === "" ||
+                mobile === "" || gender === "" || branchId === "" ||
+                email === "" || roleId === "") {
+                isValid = false;
+                errorMessage = "Please fill in all the required fields.";
+            } else {
+                // Email validation
+                var email = $("#emailInput").val();
+                var emailRegex = /^[^\s@@]+@@[^\s@@]+\.[^\s@@]+$/;
+
+                if (!emailRegex.test(email)) {
+                    isValid = false;
+                    errorMessage = "Please enter a valid email address.";
+                }
+
+
+            }
+
+            if ($("#IdInput").val() === "") {
+                if ($("#passwordInput").val() === "" || $("#dobInput").val() === "") {
+                    isValid = false;
+                    errorMessage = "Please fill in all the required fields.";
+                }
+                // Password validation
+                var password = $("#passwordInput").val();
+                var passwordRegex = /^(?=.*[A-Z])(?=.*\d)(?=.*[@@])[A-Za-z\d@@]+$/;
+
+                if (!passwordRegex.test(password)) {
+                    isValid = false;
+                    errorMessage = "Password must contain at least one uppercase letter (A-Z), one digit (0-9), and one special character (@@).";
+                }
+                //var imageInput = $("#imageInput")[0].files[0];
+                //if (!imageInput) {
+                //    isValid = false;
+                //    errorMessage = "Please select an image.";
+                //}
+            }
+
+
+            // If validation fails, display an error message and return
+            if (!isValid) {
+                alert(errorMessage);
+                return;
+            }
+
+
+            var formData = new FormData();
+
+            // Add regular form data
+            formData.append("Id", id);
+            formData.append("Name", name);
+            formData.append("DesignationId", designationId);
+            formData.append("BranchId", branchId);
+            formData.append("Mobile", mobile);
+            formData.append("DOB", dob);
+            formData.append("Gender", gender);
+            formData.append("FatherName", fatherName);
+            formData.append("MotherName", motherName);
+            formData.append("Email", email);
+            formData.append("Password", password);
+            formData.append("RoleId", roleId);
+
+            // Add file data
+            var imageInput = $("#imageInput")[0].files[0];
+            if (imageInput) {
+                formData.append("Image", imageInput);
+            }
+
+            $.ajax({
+                url: "/User/Add",
+                type: "POST",
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function (response) {
+                    if (response.success) {
+                        $('#userAddEditModal').modal('hide');
+                        $('#userAddEditModal').find('input').val('');
+                        $("#messageDiv").html("<div class='alert alert-success text-center'>" + response.successMessage + "</div>");
+                        $("#BranchId").val(branchId)
+                        LoadUser();
+                    } else {
+                        $("#messageDiv").html("<div class='alert alert-danger text-center'>" + response.errorMessage + "</div>");
+                    }
+                },
+                error: function (error) {
+                    console.error("Error:", error);
+                }
+            });
+
+        }
+
+
+        function EditUser(id, name, desId, branchId, mobile, dob, gender, fatherName, motherName, email, roleId,Path) {
+            var src = "";
+            if (Path !== "") {
+                src = Path;
+            }
+
+            $('#previewImage').attr('src', src);
+            $("#IdInput").val(id);
+            $("#nameInput").val(name);
+            $("#designationInput").val(desId);
+            $("#branchInput").val(branchId);
+            $("#mobileInput").val(mobile);
+            $("#dobTextInput").val(dob);
+            $("#genderInput").val(gender);
+            $("#fatherNameInput").val(fatherName);
+            $("#motherNameInput").val(motherName);
+            $("#emailInput").val(email);           
+            $("#roleInput").val(roleId);
+            $("#PasswordDiv").css('display','none')
+            $('#submitBtn').text('Update');
+            $("#ModalLabel").text("Edit User");
+            $('#userAddEditModal').modal("show");
+
+            $('#dovTextDiv').css('display', 'block');
+            $('#dovDiv').css('display', 'none');
+        }
+
+        function DobShow(){
+            $('#dovDiv').css('display', 'block');
+            $('#dovTextDiv').css('display', 'none');
+        }
+
+        function DeActiveUser(id) {
+            if (confirm("Are you sure you want to deactivate this User?")) {
+                $.ajax({
+                    url: "/User/DeActiveUser",
+                    type: "POST",
+                    data: { Id: id },
+                    success: function (response) {
+                        if (response.success) {
+                            $("#messageDiv").html("<div class='alert alert-success text-center'>" + response.successMessage + "</div>");
+                            LoadUser();
+                        } else {
+                            $("#messageDiv").html("<div class='alert alert-danger text-center'>" + response.errorMessage + "</div>");
+                        }
+                    },
+                    error: function (error) {
+                        console.error("Error:", error);
+                    }
+                });
+            }
+            return false;
+        }
+
+
+        function LoadUser() {
+            $('#loader').show();
+            $.ajax({
+                url: "/User/LoadUser",
+                type: "POST",
+                data: { branchId: $("#BranchId").val() },
+                success: function (response) {
+                    $("#tableData").html("");
+                    $("#tableData").append(response);
+                    $('#loader').hide();
+                }
+            });
+        }
+    </script>
+}

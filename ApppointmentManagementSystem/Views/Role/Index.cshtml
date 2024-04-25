@@ -1,0 +1,173 @@
+﻿@{
+    ViewData["Title"] = "Index";
+}
+<style>
+    .control-label, .form-control, .Font-Size {
+        font-size: 15px;
+    }
+</style>
+
+<div class="justify-content-center p-4 m-4">
+    <div class="row bg-white rounded border shadow-sm p-4">
+        <div class="col-md-12">
+            <div id="messageDiv"></div>
+        </div>
+        <div class="col-md-6">
+            <h4 class="float-left">Role List</h4>
+        </div>
+        <div class="col-md-6">
+            <button class="btn btn-primary float-right Font-Size mb-2" onclick="OpenModal()"><i class="fa fa-plus mr-1"></i>Add Role</button>
+        </div>
+        <div class="col-md-12 text-center" id="tableData"><img id="loader" style="display:none; width: 20%; margin-top:5%; margin:auto" src="~/Images/loder.gif" /></div>
+    </div>
+</div>
+
+<!-- Add and Edit Modal -->
+<div class="modal fade" id="addEditModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="ModalLabel">Add Role</h5>
+                <button type="button" class="close" aria-label="Close" onclick="CloseModal()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label class="control-label">Name</label>
+                            &nbsp;<span class="text-danger">*</span>
+                            <input name="Id" type="hidden" id="Id" class="form-control" />
+                            <input type="hidden" id="MinOrderValue" value="@ViewBag.MinOrderNo" class="form-control" />
+                            <input name="Name" id="Name" required="required" class="form-control" />
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">Role Order</label>
+                            &nbsp;<span class="text-danger">*</span>
+                            <input name="OrderNo" id="OrderNo" type="number" placeholder="Minimum value is @ViewBag.MinOrderNo" required="required" class="form-control" />
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" onclick="CloseModal()">Close</button>
+                <button type="submit" name="btnValue" id="submitBtn" class="btn btn-primary" onclick="AddRole()">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+@section scripts
+{
+    <script>
+        $(document).ready(function () {
+            $("#Role").css("display", "block");
+            $("#RoleList").addClass("active");
+            LoadRole();
+        });
+
+        function OpenModal() {
+            $("#submitBtn").text("Save");
+            $("#ModalLabel").text("Add Role");
+            $('#addEditModal').modal("show");
+        }
+        function ClearAll() {
+            $('#addEditModal').find('input').val('');
+        }
+
+        function CloseModal() {
+            $('#addEditModal').modal("hide");
+        }
+
+        function AddRole() {
+            var id = $('#Id').val();
+            var name = $('#Name').val();
+            if (name == "") {
+                alert("Please enter role name");
+                return;
+            }
+            var orderNo = $('#OrderNo').val();
+            if (orderNo == "") {
+                alert("Please enter role order");
+                return;
+            }
+            var minOrderNo = $('#MinOrderValue').val();           
+            if (parseInt(orderNo) < parseInt(minOrderNo)) {
+                alert("You are not allowed to create a role less than " + minOrderNo + " Order No");
+                return;
+            }
+
+            $.ajax({
+                url: "/Role/Add",
+                type: "POST",
+                data: { Id: id, Name: name, OrderNo: orderNo },
+                success: function (response) {
+                    if (response.success) {
+                        $('#addEditModal').modal('hide');
+                        $('#addEditModal').find('input').val('');
+                        $("#messageDiv").html("<div class='alert alert-success text-center'>" + response.successMessage + "</div>");
+                        ClearAll();
+                        LoadRole();
+                    } else {
+                        $("#messageDiv").html("<div class='alert alert-danger text-center'>" + response.errorMessage + "</div>");
+                    }
+                },
+                error: function (error) {
+                    console.error("Error:", error);
+                }
+            });
+        }
+
+
+        function EditRole(id, name, orderNo) {
+            $('#Id').val(id);
+            $('#Name').val(name);
+            $('#OrderNo').val(orderNo);
+            $('#MinOrderValue').val(orderNo);
+            $('#submitBtn').text('Update');
+            $("#ModalLabel").text("Edit Role");
+            $('#addEditModal').modal("show");
+        }
+        function DeActiveRole(id) {
+            if (confirm("Are you sure you want to deactivate this Role?")) {
+                $.ajax({
+                    url: "/Role/DeActiveRole",
+                    type: "POST",
+                    data: { Id: id },
+                    success: function (response) {
+                        if (response.success) {
+                            $("#messageDiv").html("<div class='alert alert-success text-center'>" + response.successMessage + "</div>");
+                            LoadRole();
+                            ClearAll();
+                        } else {
+                            $("#messageDiv").html("<div class='alert alert-danger text-center'>" + response.errorMessage + "</div>");
+                        }
+                    },
+                    error: function (error) {
+                        console.error("Error:", error);
+                    }
+                });
+            }
+            return false;
+        }
+
+
+        function LoadRole() {
+            $('#loader').show();
+            $.ajax({
+                url: "/Role/LoadRole",
+                type: "POST",
+                success: function (response) {
+                    $("#tableData").html("");
+                    $("#tableData").append(response);
+                    $('#loader').hide();
+                }
+            });
+        }
+    </script>
+}

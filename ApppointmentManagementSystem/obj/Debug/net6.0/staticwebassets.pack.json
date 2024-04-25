@@ -1,0 +1,657 @@
+{
+  "Files": [
+    {
+      "Id": "F:\\ITL_Office_Project\\appointmentmanagementsystem\\ApppointmentManagementSystem\\obj\\Debug\\net6.0\\scopedcss\\projectbundle\\AppointmentManagementSystem.bundle.scp.css",
+      "PackagePath": "staticwebassets\\AppointmentManagementSystem.bundle.scp.css"
+    },
+    {
+      "Id": "F:\\ITL_Office_Project\\appointmentmanagementsystem\\ApppointmentManagementSystem\\wwwroot\\Design\\Images\\sort_asc.png",
+      "PackagePath": "staticwebassets\\Design\\Images\\sort_asc.png"
+    },
+    {
+      "Id": "F:\\ITL_Office_Project\\appointmentmanagementsystem\\ApppointmentManagementSystem\\wwwroot\\Design\\Images\\sort_both.png",
+      "PackagePath": "staticwebassets\\Design\\Images\\sort_both.png"
+    },
+    {
+      "Id": "F:\\ITL_Office_Project\\appointmentmanagementsystem\\ApppointmentManagementSystem\\wwwroot\\Design\\css\\Login.css",
+      "PackagePath": "staticwebassets\\Design\\css\\Login.css"
+    },
+    {
+      "Id": "F:\\ITL_Office_Project\\appointmentmanagementsystem\\ApppointmentManagementSystem\\wwwroot\\Design\\css\\all.min.css",
+      "PackagePath": "staticwebassets\\Design\\css\\all.min.css"
+    },
+    {
+      "Id": "F:\\ITL_Office_Project\\appointmentmanagementsystem\\ApppointmentManagementSystem\\wwwroot\\Design\\css\\datatable.min.css",
+      "PackagePath": "staticwebassets\\Design\\css\\datatable.min.css"
+    },
+    {
+      "Id": "F:\\ITL_Office_Project\\appointmentmanagementsystem\\ApppointmentManagementSystem\\wwwroot\\Design\\css\\font-awesome.css",
+      "PackagePath": "staticwebassets\\Design\\css\\font-awesome.css"
+    },
+    {
+      "Id": "F:\\ITL_Office_Project\\appointmentmanagementsystem\\ApppointmentManagementSystem\\wwwroot\\Design\\css\\font-awesome.min.css",
+      "PackagePath": "staticwebassets\\Design\\css\\font-awesome.min.css"
+    },
+    {
+      "Id": "F:\\ITL_Office_Project\\appointmentmanagementsystem\\ApppointmentManagementSystem\\wwwroot\\Design\\css\\jquery-ui.css",
+      "PackagePath": "staticwebassets\\Design\\css\\jquery-ui.css"
+    },
+    {
+      "Id": "F:\\ITL_Office_Project\\appointmentmanagementsystem\\ApppointmentManagementSystem\\wwwroot\\Design\\css\\layout.css",
+      "PackagePath": "staticwebassets\\Design\\css\\layout.css"
+    },
+    {
+      "Id": "F:\\ITL_Office_Project\\appointmentmanagementsystem\\ApppointmentManagementSystem\\wwwroot\\Design\\css\\select2.min.css",
+      "PackagePath": "staticwebassets\\Design\\css\\select2.min.css"
+    },
+    {
+      "Id": "F:\\ITL_Office_Project\\appointmentmanagementsystem\\ApppointmentManagementSystem\\wwwroot\\Design\\css\\site.css",
+      "PackagePath": "staticwebassets\\Design\\css\\site.css"
+    },
+    {
+      "Id": "F:\\ITL_Office_Project\\appointmentmanagementsystem\\ApppointmentManagementSystem\\wwwroot\\Design\\css\\sweetalert2.min.css",
+      "PackagePath": "staticwebassets\\Design\\css\\sweetalert2.min.css"
+    },
+    {
+      "Id": "F:\\ITL_Office_Project\\appointmentmanagementsystem\\ApppointmentManagementSystem\\wwwroot\\Design\\fonts\\fontawesome-webfont.ttf",
+      "PackagePath": "staticwebassets\\Design\\fonts\\fontawesome-webfont.ttf"
+    },
+    {
+      "Id": "F:\\ITL_Office_Project\\appointmentmanagementsystem\\ApppointmentManagementSystem\\wwwroot\\Design\\fonts\\fontawesome-webfont.woff",
+      "PackagePath": "staticwebassets\\Design\\fonts\\fontawesome-webfont.woff"
+    },
+    {
+      "Id": "F:\\ITL_Office_Project\\appointmentmanagementsystem\\ApppointmentManagementSystem\\wwwroot\\Design\\fonts\\fontawesome-webfont.woff2",
+      "PackagePath": "staticwebassets\\Design\\fonts\\fontawesome-webfont.woff2"
+    },
+    {
+      "Id": "F:\\ITL_Office_Project\\appointmentmanagementsystem\\ApppointmentManagementSystem\\wwwroot\\Design\\js\\all.min.js",
+      "PackagePath": "staticwebassets\\Design\\js\\all.min.js"
+    },
+    {
+      "Id": "F:\\ITL_Office_Project\\appointmentmanagementsystem\\ApppointmentManagementSystem\\wwwroot\\Design\\js\\jquery-ui.js",
+      "PackagePath": "staticwebassets\\Design\\js\\jquery-ui.js"
+    },
+    {
+      "Id": "F:\\ITL_Office_Project\\appointmentmanagementsystem\\ApppointmentManagementSystem\\wwwroot\\Design\\js\\jquery.dataTables.min.js",
+      "PackagePath": "staticwebassets\\Design\\js\\jquery.dataTables.min.js"
+    },
+    {
+      "Id": "F:\\ITL_Office_Project\\appointmentmanagementsystem\\ApppointmentManagementSystem\\wwwroot\\Design\\js\\select2.min.js",
+      "PackagePath": "staticwebassets\\Design\\js\\select2.min.js"
+    },
+    {
+      "Id": "F:\\ITL_Office_Project\\appointmentmanagementsystem\\ApppointmentManagementSystem\\wwwroot\\Design\\js\\sidebar.js",
+      "PackagePath": "staticwebassets\\Design\\js\\sidebar.js"
+    },
+    {
+      "Id": "F:\\ITL_Office_Project\\appointmentmanagementsystem\\ApppointmentManagementSystem\\wwwroot\\Design\\js\\site.js",
+      "PackagePath": "staticwebassets\\Design\\js\\site.js"
+    },
+    {
+      "Id": "F:\\ITL_Office_Project\\appointmentmanagementsystem\\ApppointmentManagementSystem\\wwwroot\\Design\\js\\sweetalert2.all.min.js",
+      "PackagePath": "staticwebassets\\Design\\js\\sweetalert2.all.min.js"
+    },
+    {
+      "Id": "F:\\ITL_Office_Project\\appointmentmanagementsystem\\ApppointmentManagementSystem\\wwwroot\\Design\\js\\sweetalert2.min.js",
+      "PackagePath": "staticwebassets\\Design\\js\\sweetalert2.min.js"
+    },
+    {
+      "Id": "F:\\ITL_Office_Project\\appointmentmanagementsystem\\ApppointmentManagementSystem\\wwwroot\\Design\\lib\\bootstrap\\LICENSE",
+      "PackagePath": "staticwebassets\\Design\\lib\\bootstrap"
+    },
+    {
+      "Id": "F:\\ITL_Office_Project\\appointmentmanagementsystem\\ApppointmentManagementSystem\\wwwroot\\Design\\lib\\bootstrap\\dist\\css\\bootstrap-grid.css",
+      "PackagePath": "staticwebassets\\Design\\lib\\bootstrap\\dist\\css\\bootstrap-grid.css"
+    },
+    {
+      "Id": "F:\\ITL_Office_Project\\appointmentmanagementsystem\\ApppointmentManagementSystem\\wwwroot\\Design\\lib\\bootstrap\\dist\\css\\bootstrap-grid.css.map",
+      "PackagePath": "staticwebassets\\Design\\lib\\bootstrap\\dist\\css\\bootstrap-grid.css.map"
+    },
+    {
+      "Id": "F:\\ITL_Office_Project\\appointmentmanagementsystem\\ApppointmentManagementSystem\\wwwroot\\Design\\lib\\bootstrap\\dist\\css\\bootstrap-grid.min.css",
+      "PackagePath": "staticwebassets\\Design\\lib\\bootstrap\\dist\\css\\bootstrap-grid.min.css"
+    },
+    {
+      "Id": "F:\\ITL_Office_Project\\appointmentmanagementsystem\\ApppointmentManagementSystem\\wwwroot\\Design\\lib\\bootstrap\\dist\\css\\bootstrap-grid.min.css.map",
+      "PackagePath": "staticwebassets\\Design\\lib\\bootstrap\\dist\\css\\bootstrap-grid.min.css.map"
+    },
+    {
+      "Id": "F:\\ITL_Office_Project\\appointmentmanagementsystem\\ApppointmentManagementSystem\\wwwroot\\Design\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.css",
+      "PackagePath": "staticwebassets\\Design\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.css"
+    },
+    {
+      "Id": "F:\\ITL_Office_Project\\appointmentmanagementsystem\\ApppointmentManagementSystem\\wwwroot\\Design\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.css.map",
+      "PackagePath": "staticwebassets\\Design\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.css.map"
+    },
+    {
+      "Id": "F:\\ITL_Office_Project\\appointmentmanagementsystem\\ApppointmentManagementSystem\\wwwroot\\Design\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.min.css",
+      "PackagePath": "staticwebassets\\Design\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.min.css"
+    },
+    {
+      "Id": "F:\\ITL_Office_Project\\appointmentmanagementsystem\\ApppointmentManagementSystem\\wwwroot\\Design\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.min.css.map",
+      "PackagePath": "staticwebassets\\Design\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.min.css.map"
+    },
+    {
+      "Id": "F:\\ITL_Office_Project\\appointmentmanagementsystem\\ApppointmentManagementSystem\\wwwroot\\Design\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.css",
+      "PackagePath": "staticwebassets\\Design\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.css"
+    },
+    {
+      "Id": "F:\\ITL_Office_Project\\appointmentmanagementsystem\\ApppointmentManagementSystem\\wwwroot\\Design\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.css.map",
+      "PackagePath": "staticwebassets\\Design\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.css.map"
+    },
+    {
+      "Id": "F:\\ITL_Office_Project\\appointmentmanagementsystem\\ApppointmentManagementSystem\\wwwroot\\Design\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.min.css",
+      "PackagePath": "staticwebassets\\Design\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.min.css"
+    },
+    {
+      "Id": "F:\\ITL_Office_Project\\appointmentmanagementsystem\\ApppointmentManagementSystem\\wwwroot\\Design\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.min.css.map",
+      "PackagePath": "staticwebassets\\Design\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.min.css.map"
+    },
+    {
+      "Id": "F:\\ITL_Office_Project\\appointmentmanagementsystem\\ApppointmentManagementSystem\\wwwroot\\Design\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.css",
+      "PackagePath": "staticwebassets\\Design\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.css"
+    },
+    {
+      "Id": "F:\\ITL_Office_Project\\appointmentmanagementsystem\\ApppointmentManagementSystem\\wwwroot\\Design\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.css.map",
+      "PackagePath": "staticwebassets\\Design\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.css.map"
+    },
+    {
+      "Id": "F:\\ITL_Office_Project\\appointmentmanagementsystem\\ApppointmentManagementSystem\\wwwroot\\Design\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.min.css",
+      "PackagePath": "staticwebassets\\Design\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.min.css"
+    },
+    {
+      "Id": "F:\\ITL_Office_Project\\appointmentmanagementsystem\\ApppointmentManagementSystem\\wwwroot\\Design\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.min.css.map",
+      "PackagePath": "staticwebassets\\Design\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.min.css.map"
+    },
+    {
+      "Id": "F:\\ITL_Office_Project\\appointmentmanagementsystem\\ApppointmentManagementSystem\\wwwroot\\Design\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.css",
+      "PackagePath": "staticwebassets\\Design\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.css"
+    },
+    {
+      "Id": "F:\\ITL_Office_Project\\appointmentmanagementsystem\\ApppointmentManagementSystem\\wwwroot\\Design\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.css.map",
+      "PackagePath": "staticwebassets\\Design\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.css.map"
+    },
+    {
+      "Id": "F:\\ITL_Office_Project\\appointmentmanagementsystem\\ApppointmentManagementSystem\\wwwroot\\Design\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.min.css",
+      "PackagePath": "staticwebassets\\Design\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.min.css"
+    },
+    {
+      "Id": "F:\\ITL_Office_Project\\appointmentmanagementsystem\\ApppointmentManagementSystem\\wwwroot\\Design\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.min.css.map",
+      "PackagePath": "staticwebassets\\Design\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.min.css.map"
+    },
+    {
+      "Id": "F:\\ITL_Office_Project\\appointmentmanagementsystem\\ApppointmentManagementSystem\\wwwroot\\Design\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.css",
+      "PackagePath": "staticwebassets\\Design\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.css"
+    },
+    {
+      "Id": "F:\\ITL_Office_Project\\appointmentmanagementsystem\\ApppointmentManagementSystem\\wwwroot\\Design\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.css.map",
+      "PackagePath": "staticwebassets\\Design\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.css.map"
+    },
+    {
+      "Id": "F:\\ITL_Office_Project\\appointmentmanagementsystem\\ApppointmentManagementSystem\\wwwroot\\Design\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.min.css",
+      "PackagePath": "staticwebassets\\Design\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.min.css"
+    },
+    {
+      "Id": "F:\\ITL_Office_Project\\appointmentmanagementsystem\\ApppointmentManagementSystem\\wwwroot\\Design\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.min.css.map",
+      "PackagePath": "staticwebassets\\Design\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.min.css.map"
+    },
+    {
+      "Id": "F:\\ITL_Office_Project\\appointmentmanagementsystem\\ApppointmentManagementSystem\\wwwroot\\Design\\lib\\bootstrap\\dist\\css\\bootstrap.css",
+      "PackagePath": "staticwebassets\\Design\\lib\\bootstrap\\dist\\css\\bootstrap.css"
+    },
+    {
+      "Id": "F:\\ITL_Office_Project\\appointmentmanagementsystem\\ApppointmentManagementSystem\\wwwroot\\Design\\lib\\bootstrap\\dist\\css\\bootstrap.css.map",
+      "PackagePath": "staticwebassets\\Design\\lib\\bootstrap\\dist\\css\\bootstrap.css.map"
+    },
+    {
+      "Id": "F:\\ITL_Office_Project\\appointmentmanagementsystem\\ApppointmentManagementSystem\\wwwroot\\Design\\lib\\bootstrap\\dist\\css\\bootstrap.min.css",
+      "PackagePath": "staticwebassets\\Design\\lib\\bootstrap\\dist\\css\\bootstrap.min.css"
+    },
+    {
+      "Id": "F:\\ITL_Office_Project\\appointmentmanagementsystem\\ApppointmentManagementSystem\\wwwroot\\Design\\lib\\bootstrap\\dist\\css\\bootstrap.min.css.map",
+      "PackagePath": "staticwebassets\\Design\\lib\\bootstrap\\dist\\css\\bootstrap.min.css.map"
+    },
+    {
+      "Id": "F:\\ITL_Office_Project\\appointmentmanagementsystem\\ApppointmentManagementSystem\\wwwroot\\Design\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.css",
+      "PackagePath": "staticwebassets\\Design\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.css"
+    },
+    {
+      "Id": "F:\\ITL_Office_Project\\appointmentmanagementsystem\\ApppointmentManagementSystem\\wwwroot\\Design\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.css.map",
+      "PackagePath": "staticwebassets\\Design\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.css.map"
+    },
+    {
+      "Id": "F:\\ITL_Office_Project\\appointmentmanagementsystem\\ApppointmentManagementSystem\\wwwroot\\Design\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.min.css",
+      "PackagePath": "staticwebassets\\Design\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.min.css"
+    },
+    {
+      "Id": "F:\\ITL_Office_Project\\appointmentmanagementsystem\\ApppointmentManagementSystem\\wwwroot\\Design\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.min.css.map",
+      "PackagePath": "staticwebassets\\Design\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.min.css.map"
+    },
+    {
+      "Id": "F:\\ITL_Office_Project\\appointmentmanagementsystem\\ApppointmentManagementSystem\\wwwroot\\Design\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.js",
+      "PackagePath": "staticwebassets\\Design\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.js"
+    },
+    {
+      "Id": "F:\\ITL_Office_Project\\appointmentmanagementsystem\\ApppointmentManagementSystem\\wwwroot\\Design\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.js.map",
+      "PackagePath": "staticwebassets\\Design\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.js.map"
+    },
+    {
+      "Id": "F:\\ITL_Office_Project\\appointmentmanagementsystem\\ApppointmentManagementSystem\\wwwroot\\Design\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.min.js",
+      "PackagePath": "staticwebassets\\Design\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.min.js"
+    },
+    {
+      "Id": "F:\\ITL_Office_Project\\appointmentmanagementsystem\\ApppointmentManagementSystem\\wwwroot\\Design\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.min.js.map",
+      "PackagePath": "staticwebassets\\Design\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.min.js.map"
+    },
+    {
+      "Id": "F:\\ITL_Office_Project\\appointmentmanagementsystem\\ApppointmentManagementSystem\\wwwroot\\Design\\lib\\bootstrap\\dist\\js\\bootstrap.esm.js",
+      "PackagePath": "staticwebassets\\Design\\lib\\bootstrap\\dist\\js\\bootstrap.esm.js"
+    },
+    {
+      "Id": "F:\\ITL_Office_Project\\appointmentmanagementsystem\\ApppointmentManagementSystem\\wwwroot\\Design\\lib\\bootstrap\\dist\\js\\bootstrap.esm.js.map",
+      "PackagePath": "staticwebassets\\Design\\lib\\bootstrap\\dist\\js\\bootstrap.esm.js.map"
+    },
+    {
+      "Id": "F:\\ITL_Office_Project\\appointmentmanagementsystem\\ApppointmentManagementSystem\\wwwroot\\Design\\lib\\bootstrap\\dist\\js\\bootstrap.esm.min.js",
+      "PackagePath": "staticwebassets\\Design\\lib\\bootstrap\\dist\\js\\bootstrap.esm.min.js"
+    },
+    {
+      "Id": "F:\\ITL_Office_Project\\appointmentmanagementsystem\\ApppointmentManagementSystem\\wwwroot\\Design\\lib\\bootstrap\\dist\\js\\bootstrap.esm.min.js.map",
+      "PackagePath": "staticwebassets\\Design\\lib\\bootstrap\\dist\\js\\bootstrap.esm.min.js.map"
+    },
+    {
+      "Id": "F:\\ITL_Office_Project\\appointmentmanagementsystem\\ApppointmentManagementSystem\\wwwroot\\Design\\lib\\bootstrap\\dist\\js\\bootstrap.js",
+      "PackagePath": "staticwebassets\\Design\\lib\\bootstrap\\dist\\js\\bootstrap.js"
+    },
+    {
+      "Id": "F:\\ITL_Office_Project\\appointmentmanagementsystem\\ApppointmentManagementSystem\\wwwroot\\Design\\lib\\bootstrap\\dist\\js\\bootstrap.js.map",
+      "PackagePath": "staticwebassets\\Design\\lib\\bootstrap\\dist\\js\\bootstrap.js.map"
+    },
+    {
+      "Id": "F:\\ITL_Office_Project\\appointmentmanagementsystem\\ApppointmentManagementSystem\\wwwroot\\Design\\lib\\bootstrap\\dist\\js\\bootstrap.min.js",
+      "PackagePath": "staticwebassets\\Design\\lib\\bootstrap\\dist\\js\\bootstrap.min.js"
+    },
+    {
+      "Id": "F:\\ITL_Office_Project\\appointmentmanagementsystem\\ApppointmentManagementSystem\\wwwroot\\Design\\lib\\bootstrap\\dist\\js\\bootstrap.min.js.map",
+      "PackagePath": "staticwebassets\\Design\\lib\\bootstrap\\dist\\js\\bootstrap.min.js.map"
+    },
+    {
+      "Id": "F:\\ITL_Office_Project\\appointmentmanagementsystem\\ApppointmentManagementSystem\\wwwroot\\Design\\lib\\jquery-validation-unobtrusive\\LICENSE.txt",
+      "PackagePath": "staticwebassets\\Design\\lib\\jquery-validation-unobtrusive\\LICENSE.txt"
+    },
+    {
+      "Id": "F:\\ITL_Office_Project\\appointmentmanagementsystem\\ApppointmentManagementSystem\\wwwroot\\Design\\lib\\jquery-validation-unobtrusive\\jquery.validate.unobtrusive.js",
+      "PackagePath": "staticwebassets\\Design\\lib\\jquery-validation-unobtrusive\\jquery.validate.unobtrusive.js"
+    },
+    {
+      "Id": "F:\\ITL_Office_Project\\appointmentmanagementsystem\\ApppointmentManagementSystem\\wwwroot\\Design\\lib\\jquery-validation-unobtrusive\\jquery.validate.unobtrusive.min.js",
+      "PackagePath": "staticwebassets\\Design\\lib\\jquery-validation-unobtrusive\\jquery.validate.unobtrusive.min.js"
+    },
+    {
+      "Id": "F:\\ITL_Office_Project\\appointmentmanagementsystem\\ApppointmentManagementSystem\\wwwroot\\Design\\lib\\jquery-validation\\LICENSE.md",
+      "PackagePath": "staticwebassets\\Design\\lib\\jquery-validation\\LICENSE.md"
+    },
+    {
+      "Id": "F:\\ITL_Office_Project\\appointmentmanagementsystem\\ApppointmentManagementSystem\\wwwroot\\Design\\lib\\jquery-validation\\dist\\additional-methods.js",
+      "PackagePath": "staticwebassets\\Design\\lib\\jquery-validation\\dist\\additional-methods.js"
+    },
+    {
+      "Id": "F:\\ITL_Office_Project\\appointmentmanagementsystem\\ApppointmentManagementSystem\\wwwroot\\Design\\lib\\jquery-validation\\dist\\additional-methods.min.js",
+      "PackagePath": "staticwebassets\\Design\\lib\\jquery-validation\\dist\\additional-methods.min.js"
+    },
+    {
+      "Id": "F:\\ITL_Office_Project\\appointmentmanagementsystem\\ApppointmentManagementSystem\\wwwroot\\Design\\lib\\jquery-validation\\dist\\jquery.validate.js",
+      "PackagePath": "staticwebassets\\Design\\lib\\jquery-validation\\dist\\jquery.validate.js"
+    },
+    {
+      "Id": "F:\\ITL_Office_Project\\appointmentmanagementsystem\\ApppointmentManagementSystem\\wwwroot\\Design\\lib\\jquery-validation\\dist\\jquery.validate.min.js",
+      "PackagePath": "staticwebassets\\Design\\lib\\jquery-validation\\dist\\jquery.validate.min.js"
+    },
+    {
+      "Id": "F:\\ITL_Office_Project\\appointmentmanagementsystem\\ApppointmentManagementSystem\\wwwroot\\Design\\lib\\jquery\\LICENSE.txt",
+      "PackagePath": "staticwebassets\\Design\\lib\\jquery\\LICENSE.txt"
+    },
+    {
+      "Id": "F:\\ITL_Office_Project\\appointmentmanagementsystem\\ApppointmentManagementSystem\\wwwroot\\Design\\lib\\jquery\\dist\\jquery.js",
+      "PackagePath": "staticwebassets\\Design\\lib\\jquery\\dist\\jquery.js"
+    },
+    {
+      "Id": "F:\\ITL_Office_Project\\appointmentmanagementsystem\\ApppointmentManagementSystem\\wwwroot\\Design\\lib\\jquery\\dist\\jquery.min.js",
+      "PackagePath": "staticwebassets\\Design\\lib\\jquery\\dist\\jquery.min.js"
+    },
+    {
+      "Id": "F:\\ITL_Office_Project\\appointmentmanagementsystem\\ApppointmentManagementSystem\\wwwroot\\Design\\lib\\jquery\\dist\\jquery.min.map",
+      "PackagePath": "staticwebassets\\Design\\lib\\jquery\\dist\\jquery.min.map"
+    },
+    {
+      "Id": "F:\\ITL_Office_Project\\appointmentmanagementsystem\\ApppointmentManagementSystem\\wwwroot\\Images\\GoogleLogo.png",
+      "PackagePath": "staticwebassets\\Images\\GoogleLogo.png"
+    },
+    {
+      "Id": "F:\\ITL_Office_Project\\appointmentmanagementsystem\\ApppointmentManagementSystem\\wwwroot\\Images\\Sorting icons.psd",
+      "PackagePath": "staticwebassets\\Images\\Sorting icons.psd"
+    },
+    {
+      "Id": "F:\\ITL_Office_Project\\appointmentmanagementsystem\\ApppointmentManagementSystem\\wwwroot\\Images\\bg.jpg",
+      "PackagePath": "staticwebassets\\Images\\bg.jpg"
+    },
+    {
+      "Id": "F:\\ITL_Office_Project\\appointmentmanagementsystem\\ApppointmentManagementSystem\\wwwroot\\Images\\favicon.ico",
+      "PackagePath": "staticwebassets\\Images\\favicon.ico"
+    },
+    {
+      "Id": "F:\\ITL_Office_Project\\appointmentmanagementsystem\\ApppointmentManagementSystem\\wwwroot\\Images\\loder.gif",
+      "PackagePath": "staticwebassets\\Images\\loder.gif"
+    },
+    {
+      "Id": "F:\\ITL_Office_Project\\appointmentmanagementsystem\\ApppointmentManagementSystem\\wwwroot\\Images\\mobile-circle-logo.png",
+      "PackagePath": "staticwebassets\\Images\\mobile-circle-logo.png"
+    },
+    {
+      "Id": "F:\\ITL_Office_Project\\appointmentmanagementsystem\\ApppointmentManagementSystem\\wwwroot\\Images\\sort_asc_disabled.png",
+      "PackagePath": "staticwebassets\\Images\\sort_asc_disabled.png"
+    },
+    {
+      "Id": "F:\\ITL_Office_Project\\appointmentmanagementsystem\\ApppointmentManagementSystem\\wwwroot\\Images\\sort_desc.png",
+      "PackagePath": "staticwebassets\\Images\\sort_desc.png"
+    },
+    {
+      "Id": "F:\\ITL_Office_Project\\appointmentmanagementsystem\\ApppointmentManagementSystem\\wwwroot\\Images\\sort_desc_disabled.png",
+      "PackagePath": "staticwebassets\\Images\\sort_desc_disabled.png"
+    },
+    {
+      "Id": "F:\\ITL_Office_Project\\appointmentmanagementsystem\\ApppointmentManagementSystem\\wwwroot\\SourceCode\\bootstrap.min.css",
+      "PackagePath": "staticwebassets\\SourceCode\\bootstrap.min.css"
+    },
+    {
+      "Id": "F:\\ITL_Office_Project\\appointmentmanagementsystem\\ApppointmentManagementSystem\\wwwroot\\SourceCode\\bootstrap.min.js",
+      "PackagePath": "staticwebassets\\SourceCode\\bootstrap.min.js"
+    },
+    {
+      "Id": "F:\\ITL_Office_Project\\appointmentmanagementsystem\\ApppointmentManagementSystem\\wwwroot\\SourceCode\\jquery-3.3.1.slim.min.js",
+      "PackagePath": "staticwebassets\\SourceCode\\jquery-3.3.1.slim.min.js"
+    },
+    {
+      "Id": "F:\\ITL_Office_Project\\appointmentmanagementsystem\\ApppointmentManagementSystem\\wwwroot\\css\\site.css",
+      "PackagePath": "staticwebassets\\css\\site.css"
+    },
+    {
+      "Id": "F:\\ITL_Office_Project\\appointmentmanagementsystem\\ApppointmentManagementSystem\\wwwroot\\favicon.ico",
+      "PackagePath": "staticwebassets\\favicon.ico"
+    },
+    {
+      "Id": "F:\\ITL_Office_Project\\appointmentmanagementsystem\\ApppointmentManagementSystem\\wwwroot\\fonts\\fontawesome-webfont.ttf",
+      "PackagePath": "staticwebassets\\fonts\\fontawesome-webfont.ttf"
+    },
+    {
+      "Id": "F:\\ITL_Office_Project\\appointmentmanagementsystem\\ApppointmentManagementSystem\\wwwroot\\fonts\\fontawesome-webfont.woff",
+      "PackagePath": "staticwebassets\\fonts\\fontawesome-webfont.woff"
+    },
+    {
+      "Id": "F:\\ITL_Office_Project\\appointmentmanagementsystem\\ApppointmentManagementSystem\\wwwroot\\fonts\\fontawesome-webfont.woff2",
+      "PackagePath": "staticwebassets\\fonts\\fontawesome-webfont.woff2"
+    },
+    {
+      "Id": "F:\\ITL_Office_Project\\appointmentmanagementsystem\\ApppointmentManagementSystem\\wwwroot\\js\\SweetAlert.js",
+      "PackagePath": "staticwebassets\\js\\SweetAlert.js"
+    },
+    {
+      "Id": "F:\\ITL_Office_Project\\appointmentmanagementsystem\\ApppointmentManagementSystem\\wwwroot\\js\\site.js",
+      "PackagePath": "staticwebassets\\js\\site.js"
+    },
+    {
+      "Id": "F:\\ITL_Office_Project\\appointmentmanagementsystem\\ApppointmentManagementSystem\\wwwroot\\js\\sweetalert.all.min.js",
+      "PackagePath": "staticwebassets\\js\\sweetalert.all.min.js"
+    },
+    {
+      "Id": "F:\\ITL_Office_Project\\appointmentmanagementsystem\\ApppointmentManagementSystem\\wwwroot\\lib\\bootstrap\\LICENSE",
+      "PackagePath": "staticwebassets\\lib\\bootstrap"
+    },
+    {
+      "Id": "F:\\ITL_Office_Project\\appointmentmanagementsystem\\ApppointmentManagementSystem\\wwwroot\\lib\\bootstrap\\bootstrap.bundle.min.js",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\bootstrap.bundle.min.js"
+    },
+    {
+      "Id": "F:\\ITL_Office_Project\\appointmentmanagementsystem\\ApppointmentManagementSystem\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.css"
+    },
+    {
+      "Id": "F:\\ITL_Office_Project\\appointmentmanagementsystem\\ApppointmentManagementSystem\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.css.map"
+    },
+    {
+      "Id": "F:\\ITL_Office_Project\\appointmentmanagementsystem\\ApppointmentManagementSystem\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.min.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.min.css"
+    },
+    {
+      "Id": "F:\\ITL_Office_Project\\appointmentmanagementsystem\\ApppointmentManagementSystem\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.min.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.min.css.map"
+    },
+    {
+      "Id": "F:\\ITL_Office_Project\\appointmentmanagementsystem\\ApppointmentManagementSystem\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.css"
+    },
+    {
+      "Id": "F:\\ITL_Office_Project\\appointmentmanagementsystem\\ApppointmentManagementSystem\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.css.map"
+    },
+    {
+      "Id": "F:\\ITL_Office_Project\\appointmentmanagementsystem\\ApppointmentManagementSystem\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.min.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.min.css"
+    },
+    {
+      "Id": "F:\\ITL_Office_Project\\appointmentmanagementsystem\\ApppointmentManagementSystem\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.min.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.min.css.map"
+    },
+    {
+      "Id": "F:\\ITL_Office_Project\\appointmentmanagementsystem\\ApppointmentManagementSystem\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.css"
+    },
+    {
+      "Id": "F:\\ITL_Office_Project\\appointmentmanagementsystem\\ApppointmentManagementSystem\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.css.map"
+    },
+    {
+      "Id": "F:\\ITL_Office_Project\\appointmentmanagementsystem\\ApppointmentManagementSystem\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.min.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.min.css"
+    },
+    {
+      "Id": "F:\\ITL_Office_Project\\appointmentmanagementsystem\\ApppointmentManagementSystem\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.min.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.min.css.map"
+    },
+    {
+      "Id": "F:\\ITL_Office_Project\\appointmentmanagementsystem\\ApppointmentManagementSystem\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.css"
+    },
+    {
+      "Id": "F:\\ITL_Office_Project\\appointmentmanagementsystem\\ApppointmentManagementSystem\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.css.map"
+    },
+    {
+      "Id": "F:\\ITL_Office_Project\\appointmentmanagementsystem\\ApppointmentManagementSystem\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.min.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.min.css"
+    },
+    {
+      "Id": "F:\\ITL_Office_Project\\appointmentmanagementsystem\\ApppointmentManagementSystem\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.min.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.min.css.map"
+    },
+    {
+      "Id": "F:\\ITL_Office_Project\\appointmentmanagementsystem\\ApppointmentManagementSystem\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.css"
+    },
+    {
+      "Id": "F:\\ITL_Office_Project\\appointmentmanagementsystem\\ApppointmentManagementSystem\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.css.map"
+    },
+    {
+      "Id": "F:\\ITL_Office_Project\\appointmentmanagementsystem\\ApppointmentManagementSystem\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.min.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.min.css"
+    },
+    {
+      "Id": "F:\\ITL_Office_Project\\appointmentmanagementsystem\\ApppointmentManagementSystem\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.min.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.min.css.map"
+    },
+    {
+      "Id": "F:\\ITL_Office_Project\\appointmentmanagementsystem\\ApppointmentManagementSystem\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.css"
+    },
+    {
+      "Id": "F:\\ITL_Office_Project\\appointmentmanagementsystem\\ApppointmentManagementSystem\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.css.map"
+    },
+    {
+      "Id": "F:\\ITL_Office_Project\\appointmentmanagementsystem\\ApppointmentManagementSystem\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.min.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.min.css"
+    },
+    {
+      "Id": "F:\\ITL_Office_Project\\appointmentmanagementsystem\\ApppointmentManagementSystem\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.min.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.min.css.map"
+    },
+    {
+      "Id": "F:\\ITL_Office_Project\\appointmentmanagementsystem\\ApppointmentManagementSystem\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.css"
+    },
+    {
+      "Id": "F:\\ITL_Office_Project\\appointmentmanagementsystem\\ApppointmentManagementSystem\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.css.map"
+    },
+    {
+      "Id": "F:\\ITL_Office_Project\\appointmentmanagementsystem\\ApppointmentManagementSystem\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.min.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.min.css"
+    },
+    {
+      "Id": "F:\\ITL_Office_Project\\appointmentmanagementsystem\\ApppointmentManagementSystem\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.min.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.min.css.map"
+    },
+    {
+      "Id": "F:\\ITL_Office_Project\\appointmentmanagementsystem\\ApppointmentManagementSystem\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.css"
+    },
+    {
+      "Id": "F:\\ITL_Office_Project\\appointmentmanagementsystem\\ApppointmentManagementSystem\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.css.map"
+    },
+    {
+      "Id": "F:\\ITL_Office_Project\\appointmentmanagementsystem\\ApppointmentManagementSystem\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.min.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.min.css"
+    },
+    {
+      "Id": "F:\\ITL_Office_Project\\appointmentmanagementsystem\\ApppointmentManagementSystem\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.min.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.min.css.map"
+    },
+    {
+      "Id": "F:\\ITL_Office_Project\\appointmentmanagementsystem\\ApppointmentManagementSystem\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.js",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.js"
+    },
+    {
+      "Id": "F:\\ITL_Office_Project\\appointmentmanagementsystem\\ApppointmentManagementSystem\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.js.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.js.map"
+    },
+    {
+      "Id": "F:\\ITL_Office_Project\\appointmentmanagementsystem\\ApppointmentManagementSystem\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.min.js",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.min.js"
+    },
+    {
+      "Id": "F:\\ITL_Office_Project\\appointmentmanagementsystem\\ApppointmentManagementSystem\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.min.js.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.min.js.map"
+    },
+    {
+      "Id": "F:\\ITL_Office_Project\\appointmentmanagementsystem\\ApppointmentManagementSystem\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.esm.js",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.esm.js"
+    },
+    {
+      "Id": "F:\\ITL_Office_Project\\appointmentmanagementsystem\\ApppointmentManagementSystem\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.esm.js.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.esm.js.map"
+    },
+    {
+      "Id": "F:\\ITL_Office_Project\\appointmentmanagementsystem\\ApppointmentManagementSystem\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.esm.min.js",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.esm.min.js"
+    },
+    {
+      "Id": "F:\\ITL_Office_Project\\appointmentmanagementsystem\\ApppointmentManagementSystem\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.esm.min.js.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.esm.min.js.map"
+    },
+    {
+      "Id": "F:\\ITL_Office_Project\\appointmentmanagementsystem\\ApppointmentManagementSystem\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.js",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.js"
+    },
+    {
+      "Id": "F:\\ITL_Office_Project\\appointmentmanagementsystem\\ApppointmentManagementSystem\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.js.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.js.map"
+    },
+    {
+      "Id": "F:\\ITL_Office_Project\\appointmentmanagementsystem\\ApppointmentManagementSystem\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.min.js",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.min.js"
+    },
+    {
+      "Id": "F:\\ITL_Office_Project\\appointmentmanagementsystem\\ApppointmentManagementSystem\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.min.js.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.min.js.map"
+    },
+    {
+      "Id": "F:\\ITL_Office_Project\\appointmentmanagementsystem\\ApppointmentManagementSystem\\wwwroot\\lib\\jquery-validation-unobtrusive\\LICENSE.txt",
+      "PackagePath": "staticwebassets\\lib\\jquery-validation-unobtrusive\\LICENSE.txt"
+    },
+    {
+      "Id": "F:\\ITL_Office_Project\\appointmentmanagementsystem\\ApppointmentManagementSystem\\wwwroot\\lib\\jquery-validation-unobtrusive\\jquery.validate.unobtrusive.js",
+      "PackagePath": "staticwebassets\\lib\\jquery-validation-unobtrusive\\jquery.validate.unobtrusive.js"
+    },
+    {
+      "Id": "F:\\ITL_Office_Project\\appointmentmanagementsystem\\ApppointmentManagementSystem\\wwwroot\\lib\\jquery-validation-unobtrusive\\jquery.validate.unobtrusive.min.js",
+      "PackagePath": "staticwebassets\\lib\\jquery-validation-unobtrusive\\jquery.validate.unobtrusive.min.js"
+    },
+    {
+      "Id": "F:\\ITL_Office_Project\\appointmentmanagementsystem\\ApppointmentManagementSystem\\wwwroot\\lib\\jquery-validation\\LICENSE.md",
+      "PackagePath": "staticwebassets\\lib\\jquery-validation\\LICENSE.md"
+    },
+    {
+      "Id": "F:\\ITL_Office_Project\\appointmentmanagementsystem\\ApppointmentManagementSystem\\wwwroot\\lib\\jquery-validation\\dist\\additional-methods.js",
+      "PackagePath": "staticwebassets\\lib\\jquery-validation\\dist\\additional-methods.js"
+    },
+    {
+      "Id": "F:\\ITL_Office_Project\\appointmentmanagementsystem\\ApppointmentManagementSystem\\wwwroot\\lib\\jquery-validation\\dist\\additional-methods.min.js",
+      "PackagePath": "staticwebassets\\lib\\jquery-validation\\dist\\additional-methods.min.js"
+    },
+    {
+      "Id": "F:\\ITL_Office_Project\\appointmentmanagementsystem\\ApppointmentManagementSystem\\wwwroot\\lib\\jquery-validation\\dist\\jquery.validate.js",
+      "PackagePath": "staticwebassets\\lib\\jquery-validation\\dist\\jquery.validate.js"
+    },
+    {
+      "Id": "F:\\ITL_Office_Project\\appointmentmanagementsystem\\ApppointmentManagementSystem\\wwwroot\\lib\\jquery-validation\\dist\\jquery.validate.min.js",
+      "PackagePath": "staticwebassets\\lib\\jquery-validation\\dist\\jquery.validate.min.js"
+    },
+    {
+      "Id": "F:\\ITL_Office_Project\\appointmentmanagementsystem\\ApppointmentManagementSystem\\wwwroot\\lib\\jquery\\LICENSE.txt",
+      "PackagePath": "staticwebassets\\lib\\jquery\\LICENSE.txt"
+    },
+    {
+      "Id": "F:\\ITL_Office_Project\\appointmentmanagementsystem\\ApppointmentManagementSystem\\wwwroot\\lib\\jquery\\dist\\jquery.js",
+      "PackagePath": "staticwebassets\\lib\\jquery\\dist\\jquery.js"
+    },
+    {
+      "Id": "F:\\ITL_Office_Project\\appointmentmanagementsystem\\ApppointmentManagementSystem\\wwwroot\\lib\\jquery\\dist\\jquery.min.js",
+      "PackagePath": "staticwebassets\\lib\\jquery\\dist\\jquery.min.js"
+    },
+    {
+      "Id": "F:\\ITL_Office_Project\\appointmentmanagementsystem\\ApppointmentManagementSystem\\wwwroot\\lib\\jquery\\dist\\jquery.min.map",
+      "PackagePath": "staticwebassets\\lib\\jquery\\dist\\jquery.min.map"
+    },
+    {
+      "Id": "obj\\Debug\\net6.0\\staticwebassets\\msbuild.AppointmentManagementSystem.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    },
+    {
+      "Id": "obj\\Debug\\net6.0\\staticwebassets\\msbuild.build.AppointmentManagementSystem.props",
+      "PackagePath": "build\\AppointmentManagementSystem.props"
+    },
+    {
+      "Id": "obj\\Debug\\net6.0\\staticwebassets\\msbuild.buildMultiTargeting.AppointmentManagementSystem.props",
+      "PackagePath": "buildMultiTargeting\\AppointmentManagementSystem.props"
+    },
+    {
+      "Id": "obj\\Debug\\net6.0\\staticwebassets\\msbuild.buildTransitive.AppointmentManagementSystem.props",
+      "PackagePath": "buildTransitive\\AppointmentManagementSystem.props"
+    }
+  ],
+  "ElementsToRemove": []
+}

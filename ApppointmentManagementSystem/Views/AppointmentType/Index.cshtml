@@ -1,0 +1,172 @@
+﻿@model IEnumerable<AppointmentManagementSystem.Models.AppointmentType>
+
+@{
+    ViewData["Title"] = "Index";
+    int count = 1;
+}
+<style>
+    .control-label, .form-control, .Font-Size {
+        font-size: 15px;
+    }
+</style>
+<div class="bg-white p-3 ml-2 mr-2">
+    <div class="row">
+        <div class="col-6">
+            <h4 class="float-left">Appointment Type List</h4>
+        </div>
+        <div class="col-6">
+            <button class="btn btn-primary float-right Font-Size mb-2" onclick="AddAppointmentType()"><i class="fa fa-plus mr-1"></i>Add Appointment Type</button>
+        </div>
+    </div>
+    <div id="ErrorMsg" style="text-align: center;" class="col-md-12">
+        <label style="color:green" class="col-md-12"><span id="SuccessMessageDiv">@ViewBag.SuccessMessage</span></label>
+        <label style="color:red" class="col-md-12"><span id="ErrorMessageDiv">@ViewBag.ErrorMessage</span></label>
+    </div>
+  
+    <div class="table-responsive" id="appointmentTypeTable">
+        <div class="col-md-12 text-center">
+            <img class="text-center" id="loader" style="display:none; width: 20%; margin-top:5%; margin:auto; filter: grayscale(100%) brightness(50%) sepia(100%) hue-rotate(0deg) saturate(500%) contrast(1);" src="~/Images/loder.gif" />
+        </div>
+       
+    </div>
+</div>
+<div class="modal" tabindex="-1" id="AddAppointmentType">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalTitle"></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" onclick="ClearAll()" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>Name</label>
+                    <input type="hidden" class="form-control" id="appointmentTypeId" name="id" />
+                    <input type="text" class="form-control" name="name" id="name" />
+                </div>               
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" onclick="ClearAll()" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="btnSave" onclick="fnAddAppointmentType()">Save</button>
+                <button type="button" class="btn btn-primary" id="btnUpdate" onclick="fnUpdateAppointmentType()">Update</button>
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            $("#Appointment").css("display", "block");
+            $("#AppointmentType").addClass("active");
+            loadData();
+        });
+        function ClearAll() {
+            $("#name").val("");
+            $("#branchId").val("");          
+        }
+        function AddAppointmentType() {
+            $("#btnUpdate").css("display", "none");
+            $("#btnSave").css("display", "block");
+            $("#modalTitle").html("Add Appointment Type")
+            $('#AddAppointmentType').modal("show");
+        }
+        function UpdateAppointmentType(id, name) {
+            $("#btnUpdate").css("display", "block");
+            $("#btnSave").css("display", "none");
+            $("#name").val(name);
+            $("#appointmentTypeId").val(id);
+            $("#modalTitle").html("Update Appointment Type")
+            $('#AddAppointmentType').modal("show");
+        }
+        function fnAddAppointmentType() {
+            var name = $('#name').val();
+            $.ajax({
+                type: "POST",
+                url: "/AppointmentType/Add",
+                data: { name: name},
+                success: function (result) {
+                   // $("#SuccessMessageDiv").html("<div class='alert alert-danger'>" + result.errorMessage + "</div>");
+                    $("#SuccessMessageDiv").html("<div class='alert alert-primary'>" + result.errorMessage + "</div>");
+                    $('#AddAppointmentType').modal("hide");
+                    loadData();
+                },
+                error: function (error) {
+                    loadData();
+                    $("#SuccessMessageDiv").html("<div class='alert alert-danger'>" + result.errorMessage + "</div>");
+                }
+            });
+        }
+        function fnUpdateAppointmentType() {
+            var name = $('#name').val();
+            var id = $('#appointmentTypeId').val();
+            $.ajax({
+                type: "POST",
+                url: "/AppointmentType/Update",
+                data: { name: name, id: id},
+                success: function (result) {
+                   // $("#SuccessMessageDiv").html("<div class='alert alert-danger'>" + result.errorMessage + "</div>");
+                    $("#SuccessMessageDiv").html("<div class='alert alert-primary'>" + result.errorMessage + "</div>");
+                    $('#AddAppointmentType').modal("hide");
+                    loadData();                },
+                error: function (error) {
+                    loadData();
+                    $("#SuccessMessageDiv").html("<div class='alert alert-danger'>" + result.errorMessage + "</div>");
+                }
+            });
+        }
+        function fnDeleteData(id) {
+            let text = "Are you sure to delete this Appointment Type?"
+            if (confirm(text) == true) {
+                $.ajax({
+                    type: "POST",
+                    url: "/AppointmentType/Delete",
+                    data: { "id": id },
+                    success: function (result) {
+                        //$("#SuccessMessageDiv").html("<div class='alert alert-danger'>" + result.errorMessage + "</div>");
+                        $("#SuccessMessageDiv").html("<div class='alert alert-primary'>" + result.errorMessage + "</div>");
+                        loadData()
+                    },
+                    error: function (error) {
+                        loadData()
+                        $("#SuccessMessageDiv").html("<div class='alert alert-danger'>" + error.errorMessage + "</div>");
+                    }
+                });
+
+            } else {
+
+            }
+        }
+        function loadData() {
+            $('#loader').show();
+            ClearAll();
+            $.ajax({
+                url: '/AppointmentType/GetAllType',
+                type: 'GET',
+                success: function (data) {
+                    var appointmentTypeTable = $('#appointmentTypeTable');
+                    appointmentTypeTable.empty();
+
+                    var dTable = '<table class="table table-striped table-bordered custrom-table mb-2" id="table"><thead><tr><th>#</th><th>Name</th><th>Action</th></tr></thead><tbody>';
+
+                    $.each(data, function (index, item) {
+                        dTable += '<tr>' +
+                            '<td>' + (index + 1) + '</td>' +
+                            '<td>' + item.name + '</td>' +                           
+                            '<td>' +
+                            '<button class="btn btn-sm btn-primary" type="button" onclick="UpdateAppointmentType(' + item.id + ',\'' + item.name + '\')"><i class="fas fa-edit" title="Edit"></i></button>' + '&nbsp;' +
+                            '<button type="button" class="btn btn-sm btn-danger" onclick="fnDeleteData(' + item.id + ')"><i class="fa-solid fas fa-trash" title="Delete"></i></button>' +
+                            '</td>' +
+                            '</tr>';
+                    });
+                    dTable += '</tbody></table>';
+                    appointmentTypeTable.append(dTable);
+                    $('#table').DataTable();
+                    $('#loader').hide();
+                },
+                error: function () {
+                    alert('An error occurred while fetching data.');
+                }
+            });
+        }
+
+    </script>
+}

@@ -1,0 +1,475 @@
+﻿@using AppointmentManagementSystem.Common
+@{
+    ViewData["Title"] = "Index";
+    int count = 1;
+}
+<style>
+    .control-label, .form-control, .Font-Size {
+        font-size: 15px;
+    }
+</style>
+
+<div class="btn-group mt-2">
+    <button id="doctorListBtn" class="btn btn-primary" onclick="LoadDoctorList()">Doctor List</button>
+    <button id="educationQualificationBtn" class="btn ml-1" onclick="LoadQualificationDiv()">Doctor Qualification</button>
+</div>
+
+<div class="justify-content-center p-4 m-4">
+    <div class="row bg-white rounded border shadow-sm p-4">
+        <div class="col-md-12">
+            <div id="messageDiv"></div>
+        </div>
+        <div class="col-md-12" id="doctorTableData" style="overflow:auto;"><img id="loader" style="display:none; width: 20%; margin-top:5%; margin:auto" src="~/Images/loder.gif" /></div>
+        @*<div class="col-md-12 text-center" id="doctorQualificationData"><img id="loader1" style="display:none; width: 20%; margin-top:5%; margin:auto" src="~/Images/loder.gif" /></div>*@
+    </div>
+</div>
+
+<!--Doctor Add and Edit Modal -->
+<div class="modal fade bd-example-modal-lg" id="doctorAddEditModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="ModalLabel">Add Doctor</h5>
+                <button type="button" class="close" aria-label="Close" onclick="CloseAddEditModal()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <input type="hidden" name="Id" id="IdInput" class="form-control" />
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="control-label">Name</label>
+                            &nbsp;<span class="text-danger">*</span>
+                            <input name="Name" id="nameInput" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="control-label">Designation Name</label>
+                            &nbsp;<span class="text-danger">*</span>
+                            @Html.DropDownList("designationInput", new SelectList(ViewBag.DesignationList, "Id", "Name"),"---Select Designation Name---", new { @class = "form-control", @name="desId"})
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="control-label">Mobile</label>
+                            &nbsp;<span class="text-danger">*</span>
+                            <input name="Mobile" required="required" id="mobileInput" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="col-md-4" id="dovDiv">
+                        <div class="form-group">
+                            <label class="control-label">Date of Birth</label>
+                            &nbsp;<span class="text-danger">*</span>
+                            <input type="date" name="DOB" id="dobInput" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="col-md-4" id="dovTextDiv" style="display:none">
+                        <div class="form-group">
+                            <label class="control-label">Date of Birth</label>
+                            &nbsp;<span class="text-danger">*</span>
+                            <input type="text" name="DOB" id="dobTextInput" class="form-control" onclick="DobShow()"/>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="control-label">Gender</label>
+                            &nbsp;<span class="text-danger">*</span>
+                            <select name="Gender" class="form-control" id="genderInput">
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="control-label">Specialty</label>
+                            &nbsp;<span class="text-danger">*</span>
+                            <input name="specialty" class="form-control" id="specialtyInput" />
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="control-label">Language</label>
+                            &nbsp;<span class="text-danger">*</span>
+                            <input name="language" class="form-control" id="languageInput" />
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="control-label">Institute</label>
+                            &nbsp;<span class="text-danger">*</span>
+                            <input name="institude" class="form-control" id="instituteInput" />
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="control-label">Email</label>
+                            &nbsp;<span class="text-danger">*</span>
+                            <input name="Email" class="form-control" id="emailInput" />
+                        </div>
+                    </div>
+                    <div class="col-md-4" id="PasswordDiv">
+                        <div class="form-group">
+                            <label class="control-label">Password</label>
+                            &nbsp;<span class="text-danger">*</span>
+                            <input name="Password" class="form-control" id="passwordInput" />
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="control-label">BMDC No</label>
+                            &nbsp;<span class="text-danger">*</span>
+                            <input name="BMDCNo" class="form-control" id="bMDCNoInput" />
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="control-label">Description</label>
+                            &nbsp;<span class="text-danger">*</span>
+                            <textarea name="Description" class="form-control" id="descriptionInput"></textarea>
+                        </div>
+                    </div>
+                    <div class="col-md-4" id="ImageDiv">
+                        <div class="form-group">
+                            <label class="control-label">Image</label>
+                            &nbsp;<span class="text-danger">*</span>
+                            <input type="file" name="Image" class="form-control" id="imageInput" onchange="displayImage(this)" />
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group text-center">
+                            <img id="previewImage" style="height: 70px; width: 70px;" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" onclick="CloseAddEditModal()">Close</button>
+                <button name="btnValue" id="submitBtn" class="btn btn-primary" onclick="AddDoctorData()">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts
+    {
+    <script>
+        $(document).ready(function () {
+            $("#Doctor").css("display", "block");
+            $("#DoctorList").addClass("active");
+            LoadDoctorList();
+        });
+        function OpenAddEditModal() {
+            $('#PasswordDiv').css('display', 'block');
+            $('#submitBtn').text('Save');
+            $("#ModalLabel").text("Add Doctor");
+            $('#doctorAddEditModal').find('input').val('');
+            $('#previewImage').val('');
+            $('#descriptionInput').val('');
+            $('#doctorAddEditModal').modal("show");
+        }
+        function OpenQualificationAddEditModal() {
+            $('#doctorQualificationAddEditModal').modal("show");
+        }
+        function CloseModalQualificaion() {
+            $('#doctorQualificationAddEditModal').modal("hide");
+        }
+        function CloseAddEditModal() {
+            $('#doctorAddEditModal').modal("hide");
+        }
+        function displayImage(input) {
+            var imageDiv = document.getElementById('ImageDiv');
+            var previewImage = document.getElementById('previewImage');
+
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    previewImage.src = e.target.result;
+                };
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        function AddDoctorData() {
+
+            var isValid = true;
+            var errorMessage = "";
+
+            // Check if any of the required fields is empty
+            if ($("#nameInput").val() === "" || $("#designationInput").val() === "" ||
+                $("#mobileInput").val() === "" || $("#genderInput").val() === "" || $("#specialtyInput").val() === "" ||
+                $("#languageInput").val() === "" || $("#instituteInput").val() === "" || $("#emailInput").val() === "" || $("#descriptionInput").val() === "") {
+                isValid = false;
+                errorMessage = "Please fill in all the required fields.";
+            } else {
+                // Email validation
+                var email = $("#emailInput").val();
+                var emailRegex = /^[^\s@@]+@@[^\s@@]+\.[^\s@@]+$/;
+
+                if (!emailRegex.test(email)) {
+                    isValid = false;
+                    errorMessage = "Please enter a valid email address.";
+                }
+
+
+            }
+
+            if ($("#IdInput").val() === "") {
+                if ($("#passwordInput").val() === "" || $("#dobInput").val() === "") {
+                    isValid = false;
+                    errorMessage = "Please fill in all the required fields.";
+                }
+                // Password validation
+                var password = $("#passwordInput").val();
+                var passwordRegex = /^(?=.*[A-Z])(?=.*\d)(?=.*[@@])[A-Za-z\d@@]+$/;
+
+                if (!passwordRegex.test(password)) {
+                    isValid = false;
+                    errorMessage = "Password must contain at least one uppercase letter (A-Z), one digit (0-9), and one special character (@@).";
+                }
+                var imageInput = $("#imageInput")[0].files[0];
+                if (!imageInput) {
+                    isValid = false;
+                    errorMessage = "Please select an image.";
+                }
+            }
+
+
+            // If validation fails, display an error message and return
+            if (!isValid) {
+                alert(errorMessage);
+                return;
+            }
+
+
+            var formData = new FormData();
+
+            // Add regular form data
+            formData.append("Id", $("#IdInput").val());
+            formData.append("Name", $("#nameInput").val());
+            formData.append("DesignationId", $("#designationInput").val());
+            formData.append("BMDCNo", $("#bMDCNoInput").val());
+            formData.append("Mobile", $("#mobileInput").val());
+            formData.append("DOB", $("#dobInput").val());
+            formData.append("Gender", $("#genderInput").val());
+            formData.append("Specialty", $("#specialtyInput").val());
+            formData.append("Language", $("#languageInput").val());
+            formData.append("Institute", $("#instituteInput").val());
+            formData.append("Email", $("#emailInput").val());
+            formData.append("Password", $("#passwordInput").val());
+            formData.append("Description", $("#descriptionInput").val());
+
+            // Add file data
+            var imageInput = $("#imageInput")[0].files[0];
+            if (imageInput) {
+                formData.append("Image", imageInput);
+            }
+
+            $.ajax({
+                url: "/Doctor/Add",
+                type: "POST",
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function (response) {
+                    if (response.success) {
+                        $('#doctorAddEditModal').modal('hide');
+                        $('#doctorAddEditModal').find('input').val('');
+                        $("#messageDiv").html("<div class='alert alert-success text-center'>" + response.successMessage + "</div>");
+                        LoadDoctorList();
+                    } else {
+                        $("#messageDiv").html("<div class='alert alert-danger text-center'>" + response.errorMessage + "</div>");
+                    }
+                },
+                error: function (error) {
+                    console.error("Error:", error);
+                }
+            });
+
+
+        }
+        function EditDoctorDataSet(id, name, designationId, bmdcNo, email, mobile, dob, gender, specialty, language, description, institute, Path) {
+            var src = "";
+            if (Path !== "") {
+                src = Path;
+            }
+
+            $('#previewImage').attr('src', src);
+
+            $("#IdInput").val(id);
+            $("#nameInput").val(name);
+            $("#designationInput").val(designationId);
+            $("#bMDCNoInput").val(bmdcNo);
+            $("#emailInput").val(email);
+            $("#mobileInput").val(mobile);
+            $("#dobTextInput").val(dob);
+            $("#genderInput").val(gender);
+            $("#specialtyInput").val(specialty);
+            $("#languageInput").val(language);
+            $("#instituteInput").val(institute);
+            $("#descriptionInput").val(description);
+
+            $('#ImageDiv').css('display', 'block');
+            $('#PasswordDiv').css('display', 'none');
+            $('#dovTextDiv').css('display', 'block');
+            $('#dovDiv').css('display', 'none');
+            $('#submitBtn').text('Update');
+            $("#ModalLabel").text("Edit Doctor");
+            $('#doctorAddEditModal').modal("show");
+        }
+
+        function DobShow(){
+            $('#dovDiv').css('display', 'block');
+            $('#dovTextDiv').css('display', 'none');
+        }
+
+        function DeactivateDoctor(id) {
+            if (confirm("Are you sure you want to deactivate this doctor?")) {
+                $.ajax({
+                    url: "/Doctor/DeactivateDoctor",
+                    type: "POST",
+                    data: { Id: id },
+                    success: function (response) {
+                        if (response.success) {
+                            $("#messageDiv").html("<div class='alert alert-success text-center'>" + response.successMessage + "</div>");
+                            LoadDoctorList();
+                        } else {
+                            $("#messageDiv").html("<div class='alert alert-danger text-center'>" + response.errorMessage + "</div>");
+                        }
+                    },
+                    error: function (error) {
+                        console.error("Error:", error);
+                    }
+                });
+            }
+            return false;
+        }
+
+
+        function LoadDoctorList() {
+            $("#doctorListBtn").addClass("btn-primary")
+            $("#educationQualificationBtn").removeClass("btn-primary")
+
+            $('#loader').show();
+            $.ajax({
+                url: "/Doctor/LoadDoctorList",
+                type: "POST",
+                success: function (response) {
+                    $("#doctorTableData").html("");
+                    $("#doctorTableData").append(response);
+                    $('#loader').hide();
+                }
+            });
+        }
+
+        function LoadQualificationDiv(doctorId) {
+            $("#doctorListBtn").removeClass("btn-primary")
+            $("#educationQualificationBtn").addClass("btn-primary")
+            $('#loader').show();
+            $.ajax({
+                url: "/Doctor/LoadQualificationDiv",
+                type: "POST",
+                success: function (response) {
+                    $("#doctorTableData").html("");
+                    $("#doctorTableData").append(response);
+                    if (doctorId != undefined) {
+                        $("#DoctorId").val(doctorId);
+                        LoadQualification();
+                    }
+                    $('#loader').hide();
+                }
+            });
+        }
+        function LoadQualification() {
+            var doctorId = $("#DoctorId").val();
+            $.ajax({
+                url: "/Doctor/LoadQualification",
+                data: { doctorId: doctorId },
+                type: "POST",
+                success: function (response) {
+                    $("#detailsQualification").html("");
+                    $("#detailsQualification").append(response);
+                    //$('#loader').hide();
+                }
+            });
+        }
+        function AddDoctorQualification() {
+            if ($("#DoctorIdQ").val() === "" || $("#degreeName").val() === "" ||
+                $("#instituteName").val() === "" || $("#passingYear").val() === "" || $("#country").val() === "") {
+
+                alert("Please fill in all the required fields");
+                return;
+            }
+
+            var formData = new FormData();
+            var dcId = $("#DoctorIdQ").val();
+            // Add regular form data
+            formData.append("Id", $("#IdInputQ").val());
+            formData.append("DoctorId", dcId);
+            formData.append("DegreeName", $("#degreeName").val());
+            formData.append("InstituteName", $("#instituteName").val());
+            formData.append("PassingYear", $("#passingYear").val());
+            formData.append("Achievement", $("#achievement").val());
+            formData.append("Country", $("#country").val());
+            $.ajax({
+                url: "/Doctor/AddQualification",
+                type: "POST",
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function (response) {
+                    if (response.success) {
+                        $('#doctorQualificationAddEditModal').modal('hide');
+                        $('#doctorQualificationAddEditModal').find('input').val('');
+                        $("#messageDiv").html("<div class='alert alert-success text-center'>" + response.successMessage + "</div>");
+                        $("#DoctorId").val(dcId)
+                        LoadQualification();
+                    } else {
+                        $("#messageDiv").html("<div class='alert alert-danger text-center'>" + response.errorMessage + "</div>");
+                    }
+                },
+                error: function (error) {
+                    console.error("Error:", error);
+                }
+            });
+        }
+        function EditDoctorQualification(id, doctorId, degree, inst, passingYear, country, acheivement) {
+
+            $("#IdInputQ").val(id);
+            $("#DoctorIdQ").val(doctorId)
+            $("#degreeName").val(degree)
+            $("#instituteName").val(inst)
+            $("#passingYear").val(passingYear)
+            $("#achievement").val(acheivement)
+            $("#country").val(country)
+            $('#submitBtnQ').text('Update');
+            $('#doctorQualificationAddEditModal').modal("show");
+        }
+        function DeactivateDoctorQualification(id) {
+            if (confirm("Are you sure you want to deactivate this qualification?")) {
+                $.ajax({
+                    url: "/Doctor/DeactivateQualification",
+                    type: "POST",
+                    data: { Id: id },
+                    success: function (response) {
+                        if (response.success) {
+                            $("#messageDiv").html("<div class='alert alert-success text-center'>" + response.successMessage + "</div>");
+                            LoadQualification();
+                        } else {
+                            $("#messageDiv").html("<div class='alert alert-danger text-center'>" + response.errorMessage + "</div>");
+                        }
+                    },
+                    error: function (error) {
+                        console.error("Error:", error);
+                    }
+                });
+            }
+            return false;
+        }
+    </script>
+}

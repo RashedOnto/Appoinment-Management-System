@@ -1,0 +1,35 @@
+﻿@model AppointmentManagementSystem.ViewModels.DoctorDetailsVm
+@{
+    ViewData["Title"] = "Doctor Profile";
+    Layout = null;
+}
+<link href="~/Design/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
+<link href="~/Design/css/datatable.min.css" rel="stylesheet" />
+<style>
+        body {
+            background-image: url('../../Images/bg.jpg');
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-color: rgba(255, 255, 255, 0.5);
+        }
+    </style>
+
+<div class="bg-white rounded border shadow-sm pb-4 m-5">
+    <div class="row p-5">
+        <div class="col-md-4">
+            <div class="text-center border border-Success" style="height: 400px; width: 315px;">
+                <img style="height: 100%; width: 100%;" src="@Model.DoctorImage" alt="Doctor Image" />
+                <a class="btn btn-primary mt-3" href="/Home/GetAppointment?doctorId=@Model.DoctorId&branchId=@Model.BranchId&departmentId=@Model.DepartmnetId">Get Appointment</a>
+
+            </div>
+        </div>
+        <div class="col-md-8 parent">
+            <h4>@Model.DoctorName</h4>
+            <p><span style="font-weight:bold">Speciality - </span> @Model.DoctorSpecialty</p>
+            <p><span style="font-weight:bold">Degree - </span> @Model.DoctorDegreeName</p>
+            <p>@Model.DoctorDescription</p>
+        </div>
+    </div>
+</div>
+

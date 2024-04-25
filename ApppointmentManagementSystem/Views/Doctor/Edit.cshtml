@@ -1,0 +1,71 @@
+﻿@model AppointmentManagementSystem.Models.Doctor
+@{
+    ViewData["Title"] = "Add Doctor";
+
+}
+
+<style>
+    Font-Size {
+        font-size: 15px;
+    }
+</style>
+
+<div class="bg-white p-3 ml-4 mr-5">
+    <div class="row">
+        <div class="col-8">
+            <h4 class="float-left">Update Doctor</h4>
+        </div>
+
+        <div class="col-4">
+            <a asp-action="Index" class="btn btn-primary float-right Font-Size mb-2">Back to list</a>
+        </div>
+    </div>
+    <form asp-action="Edit" class="form-signin create-form bg-white rounded border shadow-sm p-4">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label class="control-label">Name</label>
+                    &nbsp;<span class="text-danger">*</span>
+                    <input asp-for="Name" required="required" class="form-control" />
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label class="control-label">Mobile</label>
+                    &nbsp;<span class="text-danger">*</span>
+                    <input asp-for="Mobile" required="required" class="form-control" />
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label class="control-label">Email</label>
+                    &nbsp;<span class="text-danger">*</span>
+                    <input asp-for="Email" required="required" class="form-control" />
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label class="control-label">Password</label>
+                    &nbsp;<span class="text-danger">*</span>
+                    @*<input asp-for="Password" required="required" class="form-control" />*@
+                </div>
+            </div>
+            <div class="col-md-8">
+                <div class="form-group">
+                    <div class="mt-2 text-white">.</div>
+                    <input type="submit" name="btnValue" id="submitBtn" value="Save" class="btn btn-primary form-control" />
+
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+@section scripts
+    {
+    <script>
+        $(document).ready(function () {
+
+        });
+    </script>
+}

@@ -1,0 +1,67 @@
+﻿@{
+    ViewData["Title"] = "AppointmentList";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Appointment List</h1>
+<div class="justify-content-center p-4 m-4">
+    <div class="row bg-white rounded border shadow-sm p-4">
+        <div class="col-md-12">
+            <div id="messageDiv"></div>
+        </div>
+        <div class="col-md-5">
+            <div class="form-group">
+                <label class="control-label">Select Branch</label>
+                @Html.DropDownList("BranchId", new SelectList(ViewBag.Branches, "Id", "Name"), "Select Branch", new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="col-md-5">
+            <div class="form-group">
+                <label class="control-label">Date</label>
+                <input type="date" class="form-control" id="date" />
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group">
+                <input type="button" value="Show" class="btn btn-primary" style="margin-top:23%" onclick="LoadAppointment()" />
+            </div>
+        </div>
+
+        <div class="col-md-12 text-center" id="tableData" style="overflow:auto"><img id="loader" style="display:none; width: 20%; margin-top:5%; margin:auto" src="~/Images/loder.gif" /></div>
+    </div>
+</div>
+@section scripts
+{
+
+    <script>
+          $(document).ready(function () {
+            $("#Appointment").css("display", "block");
+            $("#AppointmentListDoctor").addClass("active");
+            
+        });
+        function LoadAppointment() {
+           
+            var branchId = $("#BranchId").val();
+            if(branchId==""){
+                alert("Please select a branch");
+                return;
+            }
+            var date = $("#date").val();
+            if(date==""){
+                alert("Please select a date");
+                return;
+            }
+            $('#loader').show();
+            $.ajax({
+                url: "/Doctor/LoadAppointmentList",
+                type: "POST",
+                data: { branchId: branchId, date: date },
+                success: function (response) {
+                    $("#tableData").html("");
+                    $("#tableData").append(response);
+                    $('#loader').hide();
+                }
+            });
+        }
+    </script>
+}

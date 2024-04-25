@@ -1,0 +1,878 @@
+﻿@model IEnumerable<AppointmentManagementSystem.Models.DoctorServices>
+
+@{
+    ViewData["Title"] = "Index";
+    int count = 1;
+}
+<style>
+    .control-label, .form-control, .Font-Size {
+        font-size: 15px;
+    }
+</style>
+<div class="bg-white p-3 ml-2 mr-2">
+    <div class="row">
+        <div class="col-4">
+            <div class="row">
+                <h4 class="float-left">Appointment List</h4>
+                <div col-4>
+                    <button class="btn btn-primary float-left" onclick="AddAppointmentModal()">Add Appointment</button>
+                </div>
+            </div>
+
+        </div>
+        <div class="col-8" style="display:none;" id="btnCancelDiv">
+            <input type="button" value="Cancel All" class="btn btn-primary float-right" onclick="CancelAllAppointment()" />
+        </div>
+        @* <div col-8>
+        <button class="btn btn-primary float-right" onclick="AddAppointmentModal()">Add Appointment</button>
+        </div>*@
+    </div>
+    <div class="row">
+        <div class="form-group col-md-4">
+            <label>Department Name</label>
+            @Html.DropDownList("DepartmentId", new SelectList(ViewBag.DepartmentList, "DepartmentId","Name"), "---Select Department---", new { @class = "form-control", @required = "required",@onchange="ShowDepartmentDoctor()" })
+        </div>
+        <div class="form-group col-md-4">
+            <label>Doctor</label>
+            <select class="form-control" name="cascadeDoctor" id="cascadeDoctor">
+                <option value="">---Select Doctor---</option>
+            </select>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label class="control-label">Date</label>
+                <input type="date" value="" name="date" id="date" class="form-control" />
+            </div>
+        </div>
+        <div class="col-md-1 mt-3">
+            <div class="form-group">
+                <input type="button" value="Show" class="btn btn-primary" style="margin-top:23%" onclick="AppointmentList()" />
+            </div>
+        </div>
+    </div>
+    <div id="ErrorMsg" style="text-align: center;" class="col-md-12">
+        <label style="color:green" class="col-md-12"><span id="SuccessMessageDiv">@ViewBag.SuccessMessage</span></label>
+        <label style="color:red" class="col-md-12"><span id="ErrorMessageDiv">@ViewBag.ErrorMessage</span></label>
+    </div>
+    <div class="table-responsive" id="AppointmentListData">
+        <div class="col-md-12 text-center">
+            <img class="text-center" id="loader" style="display:none; width: 20%; margin-top:5%; margin:auto; filter: grayscale(100%) brightness(50%) sepia(100%) hue-rotate(0deg) saturate(500%) contrast(1);" src="~/Images/loder.gif" />
+        </div>
+    </div>
+</div>
+<div class="modal" tabindex="-1" id="ReScheduleModal">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalTitle"></h5>
+                <button type="button" class="btn-close" aria-label="Close" onclick="closeModal()"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mx-auto text-center mt-3 mb-3" style="background-color:#054468; color:white">Reschedule Appointment</div>
+                <div id="ErrorMsg" style="text-align: center;">
+                    <label style="color:green"><span id="SuccessDiv">@ViewBag.SuccessMessage</span></label>
+                    <label style="color:red"><span id="ErrorDiv">@ViewBag.ErrorMessage</span></label>
+                </div>
+                <input type="hidden" class="form-control" id="appointmentId" name="appointmentId" />
+                <input type="hidden" class="form-control" id="dId" name="dId" />
+                <input type="hidden" class="form-control" id="depId" name="depId" />
+                <input type="hidden" class="form-control" id="weekId" name="weekId" />
+                <div class="row">
+                    @* <div class="col-md-6">
+                    <div class="form-group">
+                    <label>Visit Date</label>
+                    <input type="date" class="form-control" name="visitDate" id="visitDate" readonly="readonly" />
+                    </div>
+                    <div class="form-group">
+                    <label>Previous Time Slot</label>
+                    <input type="text" class="form-control" name="timeSlot" id="timeSlot" readonly="readonly" />
+                    </div>
+                    </div>*@
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label>Next Visit Date</label>
+                            &nbsp;<span class="text-danger">*</span>
+                            <select class="form-control" name="doctorVisitDate" id="doctorVisitDate" onchange="GetTimeSlotByNewVisitDate()">
+                                <option value="">---Select Date---</option>
+                            </select>
+                        </div>
+                        <div class="col-md-12" id="serviceTimeid" style="display:none">
+                            <div class="form-group">
+                                <label>Service Time</label>
+                                &nbsp;<span class="text-danger">*</span>
+                                <select class="form-control" name="ServiceTime" id="ServiceTime" onchange="GetIndividualTimeSlotForReschedule()">
+                                    <option value="">---Select Service Time---</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group" id="sssss">
+                            <label>Available Time Slot</label>
+                            &nbsp;<span class="text-danger">*</span>
+                            <select class="form-control" name="availableTimeSlot" id="availableTimeSlot">
+                                <option value="">---Select Time Slot---</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group mx-auto text-center mt-2">
+                    <button id="submitButton" style="width:100%; background-color:#054468; border:none; height:50px; color:white" onclick="UpdateAppointmentSchedule()">Update</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal" tabindex="-1" id="AddAppointmentModal">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalTitle"></h5>
+                <button type="button" class="btn-close" aria-label="Close" onclick="closeAddModal()"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mx-auto text-center mt-1 mb-1" style="background-color:#054468; color:white">Add Appointment</div>
+                <div id="ErrorMsg" style="text-align: center;" class="col-md-12">
+                    <label style="color:green" class="col-md-12"><span id="SuccessDiv">@ViewBag.SuccessMessage</span></label>
+                    <label style="color:red" class="col-md-12"><span id="ErrorDiv">@ViewBag.ErrorMessage</span></label>
+                </div>
+                <div class="row">
+                    <input type="hidden" id="sId" name="sId" />
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="control-label">Department Name</label>
+                            &nbsp;<span class="text-danger">*</span>
+                            @Html.DropDownList("DepartmentName", new SelectList(ViewBag.DepartmentList, "DepartmentId", "Name"), "---Select Department---", new { @class = "form-control", @required = "required", @onchange = "ShowDepartmentDoctorForAdd()" })
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="control-label">Doctor</label>
+                            &nbsp;<span class="text-danger">*</span>
+                            <select class="form-control" name="showDepartmentDoctor" id="showDepartmentDoctor" onchange="GetDoctorServiceDateForAdd()">
+                                <option value="">---Select Doctor---</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="control-label">Appointment Type</label>
+                            &nbsp;<span class="text-danger">*</span>
+                            @Html.DropDownList("AppointmentTypeId", new SelectList(ViewBag.AppointmentType, "Id", "Name"), "---Select Appointment Type---", new { @class = "form-control", @required = "required" })
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="control-label">Patient Name</label>
+                            &nbsp;<span class="text-danger">*</span>
+                            <input id="nameInput" class="form-control" required="required" />
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="control-label">Patient Gender</label>
+                            &nbsp;<span class="text-danger">*</span>
+                            <select class="form-control" id="genderInput">
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="control-label">Patient Age</label>
+                            &nbsp;<span class="text-danger">*</span>
+                            <input id="patientAgeInput" class="form-control" required="required" />
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="control-label">Mobile</label>
+                            &nbsp;<span class="text-danger">*</span>
+                            <input class="form-control" id="mobile" />
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="control-label">Address</label>
+                            <textarea class="form-control" id="address"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="control-label">Doctor Services Date</label>
+                            &nbsp;<span class="text-danger">*</span>
+                            <select class="form-control" name="doctorServiceDate" id="doctorServiceDate" onchange="GetTimeSlotByNewVisitDateForAdd()">
+                                <option value="">---Select Date---</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-4" id="serviceTimeidAdd" style="display:none">
+                        <div class="form-group">
+                            <label class="control-label font-weight-bolder">Service Time</label>
+                            &nbsp;<span class="text-danger">*</span>
+                            <select class="form-control" name="ServiceTimeAdd" id="ServiceTimeAdd" onchange="GetIndividualTimeSlot()">
+                                <option value="">---Select Service Time---</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-4" id="TimeSlotDiv">
+                        <div class="form-group">
+                            <label class="control-label font-weight-bolder">Time Slot</label>
+                            &nbsp;<span class="text-danger">*</span>
+                            <select class="form-control" name="TimeSlot" id="TimeSlot">
+                                <option value="">---Select Time Slot---</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-12" id="btnDiv">
+                        <div class="form-group">
+                            <div class="mx-auto text-center mt-4">
+                                <button style="width:100%; background-color:#054468; border:none; height:40px; color:white" onclick="AddAppointmentByUser()">Save</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            $("#Appointment").css("display", "block");
+            $("#AppointmentList").addClass("active");
+        });
+        function AddAppointmentModal() {
+            $("#AddAppointmentModal").show();
+        }
+        function AddAppointmentByUser() {
+            var departmentId = $("#DepartmentName").val();
+            var doctorId = $("#showDepartmentDoctor").val();
+            var appointmentTypeId = $("#AppointmentTypeId").val();
+            var patientName = $("#nameInput").val();
+            var gender = $("#genderInput").val();
+            var age = $("#patientAgeInput").val();
+            var mobile = $("#mobile").val();
+            var address = $("#address").val();
+            var date = $("#doctorServiceDate").val();
+            var timeSlot = $("#TimeSlot").val();
+            var selectedOptionText = $("#doctorServiceDate option:selected").text();
+            var serviceId = $("#sId").val();
+            $.ajax({
+                url: '/Appointment/AddAppointmentByUser',
+                type: 'POST',
+                data: { DoctorServiceId: serviceId, AppointmentTypeId: appointmentTypeId, PatientName: patientName, PatientAge: age, PatientGender: gender, dateString: selectedOptionText, TimeSlot: timeSlot },
+                success: function (result) {
+                    $("#SuccessMessageDiv").html("<div class='alert alert-primary'>" + result.errorMessage + "</div>");
+                    $("#AddAppointmentModal").hide();
+                    LoadAppointmentListAfterAdd();
+                },
+                error: function (error) {
+                    $("#SuccessMessageDiv").html("<div class='alert alert-danger'>" + result.errorMessage + "</div>");
+                    LoadAppointmentListAfterAdd();
+                }
+            });
+
+        }
+        function formatDateString(inputDate) {
+            const dateObject = new Date(inputDate);
+
+            const day = dateObject.getDate().toString().padStart(2, '0');
+            const month = new Intl.DateTimeFormat('en-US', { month: 'short' }).format(dateObject);
+            const year = dateObject.getFullYear();
+
+            return `${day}/${month}/${year}`;
+        }
+
+        function AppointmentList() {
+            $('#loader').show();
+
+            var departmentId = $("#DepartmentId").val();
+            var doctorId = $("#cascadeDoctor").val();
+            var selectedDate = $("#date").val();
+            $.ajax({
+                url: '/Appointment/GetAppointmentList',
+                type: 'GET',
+                data: { departmentId: departmentId, doctorId: doctorId, selectedDate: selectedDate },
+                success: function (data) {
+
+                    var AppointmentList = $('#AppointmentListData');
+                    AppointmentList.empty();
+                    var dTable = '<table class="table table-striped table-bordered custrom-table mb-2" id="table"><thead><tr><th>#</th><th>Patient Name</th><th>Doctor Name</th><th>Type</th><th>Date</th><th>Serial No</th><th>Time</th><th>Status</th><th>Payment Amount</th><th>Discount Amount</th><th>Payment Status</th><th>Entry</th><th>IsSelf</th><th>Action</th></tr></thead><tbody>';
+                    $.each(data, function (index, item) {
+                        const dateTimeString = item.entryTime;
+                        const dateTime = new Date(dateTimeString);
+                        const formattedDateTime = new Intl.DateTimeFormat('en-US', {
+                            year: 'numeric',
+                            month: 'numeric',
+                            day: 'numeric',
+                            hour: 'numeric',
+                            minute: 'numeric',
+                            second: 'numeric',
+                            hour12: true
+                        }).format(dateTime);
+
+                        var statusClass = '';
+                        if (item.appointmentStatus === 'Pending') {
+                            statusClass = 'text-success';
+                        } else if (item.appointmentStatus === 'Entry') {
+                            statusClass = 'text-primary';
+                        } else if (item.appointmentStatus === 'Cancel') {
+                            statusClass = 'text-danger';
+                        }
+                        //var formattedDate = item.date.split('T')[0];
+                        const formattedDate = formatDateString(item.date);
+                        var formattedEntryTime = item.entryTime.split('T')[0];
+                        var formattedExitTime = item.exitDate.split('T')[0];
+                        dTable += '<tr>' +
+                            '<td>' + (index + 1) + '</td>' +
+                            '<td>' + item.patientName + '</td>' +
+                            '<td>' + item.doctorName + '</td>' +
+                            '<td>' + item.appointmentTypeName + '</td>' +
+                            '<td>' + formattedDate + '</td>' +
+                            '<td>' + item.slNo + '</td>' +
+                            '<td>' + item.timeSlot + '</td>' +
+                            '<td  class="' + statusClass + '">' + item.appointmentStatus + '</td>' +
+                            '<td>' + item.paymentAmount + '</td>' +
+                            '<td>' + item.discountAmount + '</td>' +
+                            '<td>' + item.paymentStatus + '</td>' +
+                            '<td>' + formattedDateTime + '</td>' +
+                            //'<td>' + formattedExitTime + '</td>' +
+                            '<td>' + item.isSelfAppointment + '</td>' +
+                            '<td style="width: 120px !important">';
+
+                        //if (item.appointmentStatus === 'Pending') {
+                        //    if(item.date === item.today){
+                        //        dTable += '<button class="btn btn-sm btn-primary" type="button" onclick="PatientEntry(' + item.id + ')"><i class="fa-solid fas fa-door-closed"></i> Entry</button>' + '&nbsp;' +
+                        //            '<button type="button" class="btn btn-sm btn-danger" onclick="Cancel(' + item.id + ')"><i class="fa-solid fas fa-trash" title="Delete"></i> Cancel</button>' +
+                        //            '<button type="button" class="btn btn-sm btn-primary" onclick="AppointmentReschedule(' + item.id + ',\'' + item.timeSlot + '\',\'' + item.date + '\',\'' + item.doctorId + '\',\'' + item.departmentId + '\',\'' + item.weekDayId + '\')"><i class="fa-solid fas fa-recycle" title="Reschedule"></i> Reschedule';
+                        //    }
+                        //    dTable += /*'<button class="btn btn-sm btn-primary" type="button" onclick="PatientEntry(' + item.id + ')"><i class="fa-solid fas fa-door-closed"></i> Entry</button>' + '&nbsp;' +*/
+                        //        '<button type="button" class="btn btn-sm btn-danger" onclick="Cancel(' + item.id + ')"><i class="fa-solid fas fa-trash" title="Delete"></i> Cancel</button>' +
+                        //        '<button type="button" class="btn btn-sm btn-primary" onclick="AppointmentReschedule(' + item.id + ',\'' + item.timeSlot + '\',\'' + item.date + '\',\'' + item.doctorId + '\',\'' + item.departmentId + '\',\'' + item.weekDayId + '\')"><i class="fa-solid fas fa-recycle" title="Reschedule"></i> Reschedule';
+                        //}
+                        if (item.appointmentStatus === 'Pending') {
+                            let entryButton = '<button class="btn btn-sm btn-primary" type="button" onclick="PatientEntry(' + item.id + ')"><i class="fa-solid fas fa-door-closed" title="Entry"></i></button>';
+
+                            let cancelButton = '<button type="button" class="btn btn-sm btn-danger" onclick="Cancel(' + item.id + ')"><i class="fa fa-times" aria-hidden="true" title="Cancel"></i></button>';
+
+                            let rescheduleButton = '<button type="button" class="btn btn-sm btn-primary" onclick="AppointmentReschedule(' + item.id + ',\'' + item.timeSlot + '\',\'' + item.date + '\',\'' + item.doctorId + '\',\'' + item.departmentId + '\',\'' + item.weekDayId + '\')"><i class="fa-solid fas fa-recycle" title="Reschedule"></i>';
+
+                            if (item.date === item.today) {
+                                dTable += entryButton + '&nbsp;' + cancelButton + '&nbsp;' + rescheduleButton;
+                            } else {
+                                dTable += cancelButton + '&nbsp;' + rescheduleButton;
+                            }
+                        }
+
+                        dTable += '</td>' +
+                            '</tr>';
+                    })
+                    dTable += '</tbody></table>';
+                    AppointmentList.append(dTable);
+                    $('#table').DataTable();
+                    $('#loader').hide();
+                    $('#btnCancelDiv').css('display', 'block');
+                },
+                error: function () {
+                    alert('An error occurred while fetching data.');
+                }
+            });
+        }
+        function LoadAppointmentListAfterAdd() {
+            $('#loader').show();
+
+            var departmentId = $("#DepartmentName").val();
+            var doctorId = $("#showDepartmentDoctor").val();
+            var selectedDate = $("#doctorServiceDate option:selected").text();
+            $.ajax({
+                url: '/Appointment/GetAppointmentList',
+                type: 'GET',
+                data: { departmentId: departmentId, doctorId: doctorId, selectedDate: selectedDate },
+                success: function (data) {
+
+                    var AppointmentList = $('#AppointmentListData');
+                    AppointmentList.empty();
+                    var dTable = '<table class="table table-striped table-bordered custrom-table mb-2" id="table"><thead><tr><th>#</th><th>Patient Name</th><th>Doctor Name</th><th>Type</th><th>Date</th><th>Serial No</th><th>Time</th><th>Status</th><th>Payment Amount</th><th>Discount Amount</th><th>Payment Status</th><th>Entry</th><th>IsSelf</th><th>Action</th></tr></thead><tbody>';
+                    $.each(data, function (index, item) {
+
+                        var statusClass = '';
+                        if (item.appointmentStatus === 'Pending') {
+                            statusClass = 'text-success';
+                        } else if (item.appointmentStatus === 'Entry') {
+                            statusClass = 'text-primary';
+                        } else if (item.appointmentStatus === 'Cancel') {
+                            statusClass = 'text-danger';
+                        }
+                        //var formattedDate = item.date.split('T')[0];
+                        const formattedDate = formatDateString(item.date);
+                        var formattedEntryTime = item.entryTime.split('T')[0];
+                        var formattedExitTime = item.exitDate.split('T')[0];
+                        dTable += '<tr>' +
+                            '<td>' + (index + 1) + '</td>' +
+                            '<td>' + item.patientName + '</td>' +
+                            '<td>' + item.doctorName + '</td>' +
+                            '<td>' + item.appointmentTypeName + '</td>' +
+                            '<td>' + formattedDate + '</td>' +
+                            '<td>' + item.slNo + '</td>' +
+                            '<td>' + item.timeSlot + '</td>' +
+                            '<td  class="' + statusClass + '">' + item.appointmentStatus + '</td>' +
+                            '<td>' + item.paymentAmount + '</td>' +
+                            '<td>' + item.discountAmount + '</td>' +
+                            '<td>' + item.paymentStatus + '</td>' +
+                            '<td>' + formattedEntryTime + '</td>' +
+                            //'<td>' + formattedExitTime + '</td>' +
+                            '<td>' + item.isSelfAppointment + '</td>' +
+                            '<td style="width: 120px !important">';
+
+                        //if (item.appointmentStatus === 'Pending') {
+                        //    dTable += '<button class="btn btn-sm btn-primary" type="button" onclick="PatientEntry(' + item.id + ')"><i class="fa-solid fas fa-door-closed"></i> Entry</button>' + '&nbsp;' +
+                        //        '<button type="button" class="btn btn-sm btn-danger" onclick="Cancel(' + item.id + ')"><i class="fa-solid fas fa-trash" title="Delete"></i> Cancel</button>' +
+                        //        '<button type="button" class="btn btn-sm btn-primary" onclick="AppointmentReschedule(' + item.id + ',\'' + item.timeSlot + '\',\'' + item.date + '\',\'' + item.doctorId + '\',\'' + item.departmentId + '\',\'' + item.weekDayId + '\')"><i class="fa-solid fas fa-recycle" title="Reschedule"></i> Reschedule';
+                        //}
+                        //if (item.appointmentStatus === 'Pending') {
+                        //    if (item.date === item.today) {
+                        //        dTable += '<button class="btn btn-sm btn-primary" type="button" onclick="PatientEntry(' + item.id + ')"><i class="fa-solid fas fa-door-closed"></i> Entry</button>' + '&nbsp;' +
+                        //            '<button type="button" class="btn btn-sm btn-danger" onclick="Cancel(' + item.id + ')"><i class="fa-solid fas fa-trash" title="Delete"></i> Cancel</button>' +
+                        //            '<button type="button" class="btn btn-sm btn-primary" onclick="AppointmentReschedule(' + item.id + ',\'' + item.timeSlot + '\',\'' + item.date + '\',\'' + item.doctorId + '\',\'' + item.departmentId + '\',\'' + item.weekDayId + '\')"><i class="fa-solid fas fa-recycle" title="Reschedule"></i> Reschedule';
+                        //    }
+                        //    dTable += /*'<button class="btn btn-sm btn-primary" type="button" onclick="PatientEntry(' + item.id + ')"><i class="fa-solid fas fa-door-closed"></i> Entry</button>' + '&nbsp;' +*/
+                        //        '<button type="button" class="btn btn-sm btn-danger" onclick="Cancel(' + item.id + ')"><i class="fa-solid fas fa-trash" title="Delete"></i> Cancel</button>' +
+                        //        '<button type="button" class="btn btn-sm btn-primary" onclick="AppointmentReschedule(' + item.id + ',\'' + item.timeSlot + '\',\'' + item.date + '\',\'' + item.doctorId + '\',\'' + item.departmentId + '\',\'' + item.weekDayId + '\')"><i class="fa-solid fas fa-recycle" title="Reschedule"></i> Reschedule';
+                        //}
+                        if (item.appointmentStatus === 'Pending') {
+                            let entryButton = '<button class="btn btn-sm btn-primary" type="button" onclick="PatientEntry(' + item.id + ')"><i class="fa-solid fas fa-door-closed" title="Entry"></i></button>';
+
+                            let cancelButton = '<button type="button" class="btn btn-sm btn-danger" onclick="Cancel(' + item.id + ')"><i class="fa fa-times" aria-hidden="true" title="Cancel"></i></button>';
+
+                            let rescheduleButton = '<button type="button" class="btn btn-sm btn-primary" onclick="AppointmentReschedule(' + item.id + ',\'' + item.timeSlot + '\',\'' + item.date + '\',\'' + item.doctorId + '\',\'' + item.departmentId + '\',\'' + item.weekDayId + '\')"><i class="fa-solid fas fa-recycle" title="Reschedule"></i>';
+
+                            if (item.date === item.today) {
+                                dTable += entryButton + '&nbsp;' + cancelButton + '&nbsp;' + rescheduleButton;
+                            } else {
+                                dTable += cancelButton + '&nbsp;' + rescheduleButton;
+                            }
+                        }
+                        dTable += '</td>' +
+                            '</tr>';
+                    })
+                    dTable += '</tbody></table>';
+                    AppointmentList.append(dTable);
+                    $('#table').DataTable();
+                    $('#loader').hide();
+                    $('#btnCancelDiv').css('display', 'block');
+                },
+                error: function () {
+                    alert('An error occurred while fetching data.');
+                }
+            });
+        }
+        function CancelAllAppointment() {
+            var departmentId = $("#DepartmentId").val();
+            var doctorId = $("#cascadeDoctor").val();
+            var selectedDate = $("#date").val();
+            $.ajax({
+                url: '/Appointment/CancelAllAppointment',
+                type: 'POST',
+                data: { departmentId: departmentId, doctorId: doctorId, selectedDate: selectedDate },
+                success: function (result) {
+                    $("#SuccessMessageDiv").html("<div class='alert alert-primary'>" + result.errorMessage + "</div>");
+                    AppointmentList();
+                },
+                error: function () {
+                    $("#SuccessMessageDiv").html("<div class='alert alert-danger'>" + result.errorMessage + "</div>");
+
+                    AppointmentList();
+                }
+            });
+            AppointmentList();
+        }
+        function PatientEntry(id) {
+            $.ajax({
+                url: '/Appointment/UpdateAppointmentStatus',
+                type: 'POST',
+                data: { id: id },
+                success: function (result) {
+                    $("#SuccessMessageDiv").html("<div class='alert alert-primary'>" + result.errorMessage + "</div>");
+                    AppointmentList();
+                },
+                error: function (error) {
+                    $("#SuccessMessageDiv").html("<div class='alert alert-danger'>" + result.errorMessage + "</div>");
+                    AppointmentList();
+                }
+            });
+        }
+        function Cancel(id) {
+            $.ajax({
+                url: '/Appointment/DeletePatient',
+                type: 'POST',
+                data: { id: id },
+                success: function (result) {
+                    $("#SuccessMessageDiv").html("<div class='alert alert-primary'>" + result.errorMessage + "</div>");
+                    AppointmentList();
+                },
+                error: function (error) {
+                    $("#SuccessMessageDiv").html("<div class='alert alert-danger'>" + result.errorMessage + "</div>");
+                    AppointmentList();
+                }
+            });
+        }
+        function AppointmentReschedule(id, timeSlot, date, doctorId, departmentId, weekDayId) {
+            var formattedDate = date.split('T')[0];
+            // $("#timeSlot").val(timeSlot)
+            $("#appointmentId").val(id)
+            // $("#visitDate").val(formattedDate)
+            $("#dId").val(doctorId)
+            $("#depId").val(departmentId)
+            $("#weekId").val(weekDayId)
+            GetDoctorServiceDate(doctorId, departmentId);
+            // LoadAppointmentTime(weekDayId, doctorId, departmentId, formattedDate)
+            $('#SuccessDiv').text('');
+            $('#ErrorDiv').text('');
+            $("#ReScheduleModal").show();
+        }
+        function GetTimeSlotByNewVisitDate() {
+            var date = $("#doctorVisitDate option:selected").text();
+            var formattedDate = date.split('T')[0];
+            var doctorId = $("#dId").val()
+            var departmentId = $("#depId").val()
+            var weekDayId = $("#doctorVisitDate").val()
+            LoadAppointmentTime(weekDayId, doctorId, departmentId, formattedDate)
+        }
+        function GetTimeSlotByNewVisitDateForAdd() {
+            var date = $("#doctorServiceDate").val()
+            // var formattedDate = date.split('T')[0];
+            var doctorId = $("#showDepartmentDoctor").val()
+            var departmentId = $("#DepartmentName").val()
+            var selectedOptionText = $("#doctorServiceDate option:selected").text();
+            //var weekDayId = $("#weekId").val()
+            LoadAppointmentTimeForAdd(date, doctorId, departmentId, selectedOptionText);
+        }
+        function UpdateAppointmentSchedule() {
+            $("#ReScheduleModal").hide();
+            var date = $("#doctorVisitDate option:selected").text();
+           // var formattedDate = date.split('T')[0];
+            var newTimeSlot = $("#availableTimeSlot").val()
+
+            //var timeSlot = $("#timeSlot").val()
+            var id = $("#appointmentId").val()
+            //var date = $("#visitDate").val()
+            $.ajax({
+                url: '/Appointment/UpdateAppointmentSchedule',
+                type: 'POST',
+                data: { id: id, formattedDate: date, newTimeSlot: newTimeSlot },
+                success: function (result) {
+                    //if (result.errorMessage == "Please Select Time Slot.") {
+
+                    //    $("#ReScheduleModal").show();
+                    //    $("#SuccessDiv").html("<div class='alert alert-danger'>" + result.errorMessage + "</div>");
+                    //} else {
+                    //    $("#SuccessMessageDiv").html("<div class='alert alert-primary'>" + result.errorMessage + "</div>");
+                    //}
+                    $("#SuccessMessageDiv").html("<div class='alert alert-primary'>" + result.errorMessage + "</div>");
+                    AppointmentList();
+                },
+                error: function (error) {
+                    $("#SuccessMessageDiv").html("<div class='alert alert-danger'>" + result.errorMessage + "</div>");
+                    AppointmentList();
+                }
+            });
+        }
+        function GetDoctorServiceDate(doctorId, departmentId) {
+            $.ajax({
+                url: '/Appointment/GetDoctorServiceDate',
+                type: 'GET',
+                data: { doctorId: doctorId, departmentId: departmentId },
+                success: function (result) {
+
+                    var dropdown = $('#doctorVisitDate');
+                    dropdown.empty();
+                    dropdown.append('<option value="">---Select Date---</option>');
+                    $.each(result, function (index, item) {
+
+                        dropdown.append('<option value="' + item.id + '">' + item.date + '</option>');
+                    });
+                },
+                error: function (error) {
+
+                }
+            });
+        }
+        function GetDoctorServiceDateForAdd() {
+            var doctorId = $("#showDepartmentDoctor").val();
+            var departmentId = $("#DepartmentName").val();
+            $.ajax({
+                url: '/Appointment/GetDoctorServiceDate',
+                type: 'GET',
+                data: { doctorId: doctorId, departmentId: departmentId },
+                success: function (result) {
+
+                    var dropdown = $('#doctorServiceDate');
+                    dropdown.empty();
+                    dropdown.append('<option value="">---Select Date---</option>');
+                    $.each(result, function (index, item) {
+
+                        dropdown.append('<option value="' + item.id + '">' + item.date + '</option>');
+                    });
+                },
+                error: function (error) {
+
+                }
+            });
+        }
+        function LoadAppointmentTime(weekDayId, doctorId, departmentId, date) {
+
+            $.ajax({
+                url: '/Appointment/LoadAppointmentTime',
+                type: 'GET',
+                data: { weekDayId: weekDayId, doctorId: doctorId, departmentId: departmentId, date: date },
+                //success: function (result) {
+                //    if (result.isTimeSlotWise == false) {
+                //        $("#sssss").css('display', 'none');
+                //        $("#availableTimeSlot").prop('required', false);
+                //        $("#availableTimeSlot").val("");
+
+                //    } else {
+                //        $("#sssss").css('display', 'block');
+                //        $("#availableTimeSlot").prop('required', true);
+
+                //        var dropdown = $('#availableTimeSlot');
+                //        dropdown.empty();
+                //        dropdown.append('<option value="">---Select Time Slot---</option>');
+                //        if (result && result.minuteIntervals && Array.isArray(result.minuteIntervals)) {
+                //            result.minuteIntervals.forEach(function (timeSlot) {
+                //                dropdown.append('<option value="' + timeSlot + '">' + timeSlot + '</option>');
+                //            });
+                //        } else {
+                //            console.error('Unexpected format in the result.');
+                //        }
+                //    }
+                //},
+                //error: function (error) {
+
+                //}
+                success: function (result) {
+                    if (result.serviceId == null) {
+                        var dropdown = $('#ServiceTime');
+                        dropdown.empty();
+                        dropdown.append('<option value="">---Select Service Time---</option>');
+                        result.forEach(function (result) {
+                            $('#ServiceTime').append('<option value="' + result + '">' + result + '</option>');
+                        });
+                        $("#serviceTimeid").css('display', 'block');
+                        $("#ServiceTime").prop('required', true);
+                        $("#btnDiv").addClass("col-md-12");
+                        $('#TimeSlot').empty();
+                        $('#TimeSlot').append('<option value="">---Select Time Slot---</option>');
+                    } else {
+                        $("#sId").val(result.serviceId);
+                        if (result.isTimeSlotWise == false) {
+                            $("#serviceTimeid").css('display', 'none');
+                            $("#sssss").css('display', 'none');
+                            $("#availableTimeSlot").prop('required', false);
+                            $("#availableTimeSlot").val("");
+                            $("#btnDiv").addClass("col-md-12");
+                        } else {
+                            $("#serviceTimeid").css('display', 'none');
+                            $("#sssss").css('display', 'block');
+                            $("#availableTimeSlot").prop('required', true);
+                            $("#btnDiv").addClass("col-md-12");
+                            var dropdown = $('#availableTimeSlot');
+                            dropdown.empty();
+                            dropdown.append('<option value="">---Select Time Slot---</option>');
+                            if (result && result.minuteIntervals && Array.isArray(result.minuteIntervals)) {
+                                result.minuteIntervals.forEach(function (timeSlot) {
+                                    dropdown.append('<option value="' + timeSlot + '">' + timeSlot + '</option>');
+                                });
+
+                            } else {
+                                console.error('Unexpected format in the result.');
+                            }
+                        }
+                    }
+
+                },
+                error: function (error) {
+
+                }
+            });
+        }
+        function LoadAppointmentTimeForAdd(weekDayId, doctorId, departmentId, date) {
+
+            $.ajax({
+                url: '/Appointment/LoadAppointmentTime',
+                type: 'GET',
+                data: { weekDayId: weekDayId, doctorId: doctorId, departmentId: departmentId, date: date },
+                success: function (result) {
+                    if (result.serviceId == null) {
+                        
+                        var dropdown = $('#ServiceTimeAdd');
+                        dropdown.empty();
+                        dropdown.append('<option value="">---Select Service Time---</option>');
+                        result.forEach(function (result) {
+                            $('#ServiceTimeAdd').append('<option value="' + result + '">' + result + '</option>');
+                        });
+                        $("#serviceTimeidAdd").css('display', 'block');
+                        $("#ServiceTimeAdd").prop('required', true);
+                        $("#btnDiv").addClass("col-md-12");
+                        $('#TimeSlot').empty();
+                        $('#TimeSlot').append('<option value="">---Select Time Slot---</option>');
+                    } else {
+                        $("#sId").val(result.serviceId);
+                        if (result.isTimeSlotWise == false) {
+                            $("#serviceTimeidAdd").css('display', 'none');
+                            $("#TimeSlotDiv").css('display', 'none');
+                            $("#TimeSlot").prop('required', false);
+                            $("#btnDiv").addClass("col-md-12");
+                        } else {
+                            $("#serviceTimeidAdd").css('display', 'none');
+                            $("#TimeSlotDiv").css('display', 'block');
+                            $("#TimeSlot").prop('required', true);
+                            $("#btnDiv").addClass("col-md-12");
+                            var dropdown = $('#TimeSlot');
+                            dropdown.empty();
+                            dropdown.append('<option value="">---Select Time Slot---</option>');
+                            if (result && result.minuteIntervals && Array.isArray(result.minuteIntervals)) {
+                                result.minuteIntervals.forEach(function (timeSlot) {
+                                    dropdown.append('<option value="' + timeSlot + '">' + timeSlot + '</option>');
+                                });
+
+                            } else {
+                                console.error('Unexpected format in the result.');
+                            }
+                        }
+                    }
+
+                },
+                error: function (error) {
+
+                }
+            });
+        }
+        function GetIndividualTimeSlot() {
+            var time = $("#ServiceTimeAdd").val();
+            var selectedOptionText = $("#doctorServiceDate option:selected").text();
+            var weekDayId = $("#doctorServiceDate").val();
+            var doctorId = $("#showDepartmentDoctor").val()
+            var departmentId = $("#DepartmentName").val()
+            $.ajax({
+                url: '/Appointment/GetIndividualTimeSlot',
+                type: 'GET',
+                data: { date: selectedOptionText, time: time, weekDayId: weekDayId, doctorId: doctorId, departmentId: departmentId },
+                success: function (result) {
+                    $("#sId").val(result.serviceId);
+                    if (result.isTimeSlotWise == false) {
+
+                        $("#TimeSlotDiv").css('display', 'none');
+                        $("#TimeSlot").prop('required', false);
+                        $("#btnDiv").addClass("col-md-12");
+                    } else {
+
+                        $("#TimeSlotDiv").css('display', 'block');
+                        $("#TimeSlot").prop('required', true);
+                        $("#btnDiv").addClass("col-md-12");
+                        var dropdown = $('#TimeSlot');
+                        dropdown.empty();
+                        dropdown.append('<option value="">---Select Time Slot---</option>');
+                        if (result && result.minuteIntervals && Array.isArray(result.minuteIntervals)) {
+                            result.minuteIntervals.forEach(function (timeSlot) {
+                                dropdown.append('<option value="' + timeSlot + '">' + timeSlot + '</option>');
+                            });
+
+                        } else {
+                            console.error('Unexpected format in the result.');
+                        }
+                    }
+                }
+            });
+        }
+         function GetIndividualTimeSlotForReschedule() {
+            var time = $("#ServiceTime").val();
+            var selectedOptionText = $("#doctorVisitDate option:selected").text();
+            var weekDayId = $("#doctorVisitDate").val();
+            var doctorId = $("#dId").val()
+            var departmentId = $("#depId").val()
+            $.ajax({
+                url: '/Appointment/GetIndividualTimeSlot',
+                type: 'GET',
+                data: { date: selectedOptionText, time: time, weekDayId: weekDayId, doctorId: doctorId, departmentId: departmentId },
+                success: function (result) {
+
+                    if (result.isTimeSlotWise == false) {
+
+                        $("#sssss").css('display', 'none');
+                        $("#availableTimeSlot").prop('required', false);
+                        $("#btnDiv").addClass("col-md-12");
+                    } else {
+
+                        $("#sssss").css('display', 'block');
+                        $("#availableTimeSlot").prop('required', true);
+                        $("#btnDiv").addClass("col-md-12");
+                        var dropdown = $('#availableTimeSlot');
+                        dropdown.empty();
+                        dropdown.append('<option value="">---Select Time Slot---</option>');
+                        if (result && result.minuteIntervals && Array.isArray(result.minuteIntervals)) {
+                            result.minuteIntervals.forEach(function (timeSlot) {
+                                dropdown.append('<option value="' + timeSlot + '">' + timeSlot + '</option>');
+                            });
+
+                        } else {
+                            console.error('Unexpected format in the result.');
+                        }
+                    }
+                }
+            });
+        }
+    </script>
+}
+<script>
+    function ShowDepartmentDoctor() {
+        var departmentId = $("#DepartmentId").val();
+
+        $.ajax({
+            url: '/Appointment/GetDoctorByDepartmentId',
+            type: 'GET',
+            data: { departmentId: departmentId },
+            success: function (data) {
+                var dropdown = $('#cascadeDoctor');
+                dropdown.empty();
+                dropdown.append('<option value="">---Select Doctor---</option>');
+                $.each(data, function (index, item) {
+                    dropdown.append('<option value="' + item.id + '">' + item.name + '</option>');
+                });
+            },
+            error: function () {
+                alert('An error occurred while fetching data.');
+            }
+        });
+    }
+    function ShowDepartmentDoctorForAdd() {
+        var departmentId = $("#DepartmentName").val();
+
+        $.ajax({
+            url: '/Appointment/GetDoctorByDepartmentId',
+            type: 'GET',
+            data: { departmentId: departmentId },
+            success: function (data) {
+                var dropdown = $('#showDepartmentDoctor');
+                dropdown.empty();
+                dropdown.append('<option value="">---Select Doctor---</option>');
+                $.each(data, function (index, item) {
+                    dropdown.append('<option value="' + item.id + '">' + item.name + '</option>');
+                });
+            },
+            error: function () {
+                alert('An error occurred while fetching data.');
+            }
+        });
+    }
+    function closeModal() {
+        $("#ReScheduleModal").hide();
+    }
+    function closeAddModal() {
+        $("#AddAppointmentModal").hide();
+    }
+
+</script>

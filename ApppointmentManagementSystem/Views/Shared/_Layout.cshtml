@@ -1,0 +1,43 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Appointment Management System</title>
+    <link href="~/Design/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Design/css/datatable.min.css" rel="stylesheet" />
+    <link href="~/Design/css/layout.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/Design/css/site.css" />
+    <link href="~/Design/css/jquery-ui.css" rel="stylesheet" />
+    <link href="~/Design/css/sweetalert2.min.css" rel="stylesheet" />
+    <link href="~/Design/css/font-awesome.min.css" rel="stylesheet" />
+</head>
+<body>
+    <partial name="_Navbar" />
+    <div id="layoutSidenav">
+        <partial name="_SideBar" />
+
+        <div id="layoutSidenav_content">
+            <main>
+                <div class="container-fluid">
+                    @RenderBody()
+                </div>
+            </main>
+            <partial name="_Footer" />
+        </div>
+    </div>
+
+    <script src="~/Design/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/Design/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/Design/js/site.js" asp-append-version="true"></script>
+
+    <script src="@Url.Content("~/Design/js/all.min.js")" crossorigin="anonymous"></script>
+    <script src="~/Design/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="@Url.Content("~/Design/js/jquery.dataTables.min.js")"></script>
+    <script src="@Url.Content("~/Design/js/sidebar.js")"></script>
+    <script src="@Url.Content("~/Design/js/jquery-ui.js")"></script>
+  
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

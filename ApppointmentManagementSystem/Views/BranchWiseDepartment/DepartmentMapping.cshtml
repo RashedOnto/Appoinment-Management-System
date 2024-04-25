@@ -1,0 +1,89 @@
+﻿@model AppointmentManagementSystem.Models.BranchWiseDepartment
+@{
+    ViewData["Title"] = "BranchWiseDepartment";
+
+}
+<style>
+    Font-Size {
+        font-size: 15px;
+    }
+</style>
+<div class="ml-5 mt-2 h6"><label id="textChange"> Settings >Add Branch Wise Department</label></div>
+<div class="bg-white p-3 ml-5 mr-5">
+    <div class="row">
+        <div class="col-6">
+            <h4 class="float-left" id="headChange">Add Branch Wise Department</h4>
+        </div>
+     
+    </div>
+    <div class="form-signin create-form bg-white rounded border shadow-sm p-4">
+        <div class="text-center mb-4">
+            <div id="errorDiv" class="text-center" style="color: red">@ViewBag.ErrorMessage</div>
+        </div>
+
+        <div class="row Font-Size">
+            <div class="form-group col-md-12">
+                <label class="control-label">Branch Name</label>
+                @Html.DropDownList("BranchId", new SelectList(ViewBag.BranchList, "Id", "Name"), "---Select Branch---",new { @class = "form-control", @required = "required",@onchange="LoadDepartment()" })
+            </div>
+
+            <div class="form-group col-md-12">
+                <div id="branchList"></div>
+            </div>
+
+            <div class="form-group col-md-12">
+                <button style="width:100%;" class="btn btn-primary" onclick="SaveBranchWiseDepartment()" id="btnSubmit">Save</button>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+@section scripts
+    {
+    <script>
+        $(document).ready(function () {
+            $("#Settings").css("display", "block");
+            $("#DepartmentMapping").addClass("active");
+            
+        });
+       
+        function LoadDepartment() {
+            var branchId = $("#BranchId").val();         
+            $.ajax({
+                url: '/BranchWiseDepartment/DepartmentList',
+                data: { branchId: branchId },
+                success: function (res) {                   
+                    $("#branchList").html("");
+                    $("#branchList").append(res);
+                }
+            });
+        }
+        function SaveBranchWiseDepartment() {
+            var branchId = $("#BranchId").val();
+            var departmentIdArray = [];
+            $('input.allCheckbox[type=checkbox]').each(function () {
+                if (this.checked)
+                    departmentIdArray.push(
+                        $(this).val()
+                    );
+            });
+            var departmentId = JSON.stringify(departmentIdArray);
+            $.ajax({
+                
+                url: "/BranchWiseDepartment/InsertBranchMapping",
+                data: { departmentId: departmentId, branchId: branchId },
+                success: function (res) {
+                    console.log(res);
+                    if (res.success) {
+                        alert("Department Mapping Saved Successfully.");
+                    } else {
+                        alert("Not Saved. Please try again. Error: " + res.message);
+                    }
+                }
+            });
+        }
+
+    </script>
+}

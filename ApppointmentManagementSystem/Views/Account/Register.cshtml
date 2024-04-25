@@ -1,0 +1,161 @@
+﻿@using AppointmentManagementSystem.Common
+@model AppointmentManagementSystem.Models.Visitor
+@{
+    ViewData["Title"] = "Visitor Register";
+    Layout = null;
+    var source = "";
+    if (Model != null && Model.Image != null)
+    {
+        source = Utility.PathToBase64(Model.Image);
+    }
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <title>@ViewData["Title"] - Appointment Management System</title>
+
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <style>
+        .bg {
+            background-image: url('../../Images/bg.jpg');
+            height: 100%;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-color: rgba(255, 255, 255, 0.5);
+        }
+
+        .shadow {
+            box-shadow: 0 .5rem 1rem rgba(0,0,0,0.7) !important
+        }
+    </style>
+</head>
+
+<body class="bg">
+<div class="container-fluid conya">
+    <div class="text-center">
+        @if (ViewBag.SuccessMessage != null)
+        {
+            <div id="SuccessMessage" style="display: none;">@ViewBag.SuccessMessage</div>
+            <div id="toast-data" data-toast-type="success" style="display: none;"></div>
+        }
+        @if (ViewBag.ErrorMessage != null)
+        {
+            <div id="ErrorMessage" style="display: none;">@ViewBag.ErrorMessage</div>
+            <div id="toast-data" data-toast-type="error" style="display: none;"></div>
+        }
+    </div>
+    <div class="row">
+        <div class="col-md-5 mx-auto card p-2 shadow" style="margin-top:5%">
+            <section>
+                @if (string.IsNullOrEmpty(Model?.Id))
+                {
+                    <h4 class="text-center my-3">Create Your Visitor Account</h4>
+                    <p class="text-right">Already register? <a href="/Account/VisitorLogin?ReturnUrl=@ViewBag.ReturnUrl">Login</a> here</p>
+                }
+                else
+                {
+                    <h4 class="text-center my-3">Update Your Visitor Account</h4>
+                }
+                <form method="post" asp-action="Register" enctype="multipart/form-data">
+                    <input type="hidden" name="returnUrl" value="@ViewBag.ReturnUrl"/>
+                    <div class="row m-2">
+                        <input type="hidden" asp-for="Id" id="IdInput" class="form-control"/>
+                        <div class="col-md-6 mt-2">
+                            <div class="form-group">
+                                <label class="control-label">Name</label>
+                                &nbsp;<span class="text-danger">*</span>
+                                <input asp-for="Name" id="nameInput" class="form-control" required="required"/>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mt-2">
+                            <div class="form-group">
+                                <label class="control-label">Gender</label>
+                                &nbsp;<span class="text-danger">*</span>
+                                <select asp-for="Gender" class="form-control" id="genderInput">
+                                    <option value="Male">Male</option>
+                                    <option value="Female">Female</option>
+                                    <option value="Other">Other</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mt-2">
+                            <div class="form-group">
+                                <label class="control-label">Date of Birth</label>
+                                &nbsp;<span class="text-danger">*</span>
+                                <input type="date" asp-for="DOB" id="dobInput" class="form-control" required="required"/>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mt-2">
+                            <div class="form-group">
+                                <label class="control-label">Mobile</label>
+                                &nbsp;<span class="text-danger">*</span>
+                                <input type="number" asp-for="Mobile" required="required" id="mobileInput" class="form-control"/>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mt-2">
+                            <div class="form-group">
+                                <label class="control-label">Email</label>
+                                <input asp-for="Email" class="form-control" id="emailInput"/>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 mt-2" id="PasswordDiv">
+                            <div class="form-group">
+                                <label class="control-label">Password</label>
+                                &nbsp;<span class="text-danger">*</span>
+                                <input name="Password" class="form-control" id="passwordInput" required="required"/>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mt-2">
+                            <div class="form-group">
+                                <label class="control-label">Address</label>
+                                &nbsp;<span class="text-danger">*</span>
+                                <textarea asp-for="Address" class="form-control" id="addressInput"></textarea>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 mt-2">
+                            <div class="form-group">
+                                <label class="control-label">Image</label>
+                                <input type="file" name="image" class="form-control" id="imageInput"/>
+                            </div>
+                        </div>
+                        <div class="col-md-4" id="ImageDiv" style="display:none">
+                            <div class="form-group text-center">
+                                <img src="@source" style="height: 70px; width: 70px;"/>
+                            </div>
+                        </div>
+                        <div class="col-md-12 mt-4">
+                            <button type="submit" name="btnValue" id="submitBtn" class="btn btn-success w-100 py-2">Sign Up</button>
+                        </div>
+                    </div>
+
+                </form>
+            </section>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+<script src="~/Design/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="~/js/sweetalert.all.min.js"></script>
+<script src="~/js/SweetAlert.js"></script>
+<script>
+    $(document).ready(function () {
+        var Id = $('#IdInput').val();
+
+        if (Id !== "") {
+            $('#ImageDiv').css('display', 'block');
+            $('#PasswordDiv').css('display', 'none');
+            $('#passwordInput').prop('required', false);
+            $('#submitBtn').text('Update');
+        }
+    });
+
+</script>
+
